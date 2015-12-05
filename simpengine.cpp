@@ -1,7 +1,7 @@
 #define WIN32_LEAN_AND_MEAN
 #define WIN32_EXTRA_LEAN
 
-#include "stdafx.h"
+//#include "stdafx.h"
 
 #include "simpengine.h"
 

@@ -6,7 +6,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 // Include Files
-#include "stdafx.h"
+//#include "stdafx.h"
 
 #include <windows.h>                // Win32 Framework (No MFC)
 #include <gl\gl.h>                  // OpenGL

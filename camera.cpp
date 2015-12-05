@@ -8,7 +8,7 @@ Date: 4/4/2001
 Description:
 
 */
-#include "stdafx.h"
+//#include "stdafx.h"
 
 #include "camera.h"
 #include "object.h"

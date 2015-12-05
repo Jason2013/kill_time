@@ -2,6 +2,11 @@ cmake_minimum_required(VERSION 2.8)
 set(PROJ_NAME KILL_TIME)
 project(${PROJ_NAME})
 
+# sakra/cotire
+# https://github.com/sakra/cotire
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+include(cotire)
+
 # Microsoft Windows SDK for Windows 7 and .NET Framework 3.5 SP1
 # https://www.microsoft.com/en-us/download/details.aspx?id=3138
 set(WIN_SDK7_DIR "C:/Program Files/Microsoft SDKs/Windows/v7.0A")
@@ -47,7 +52,6 @@ rocket.h
 simpengine.h
 sod.h
 startupOptions.h
-stdafx.h
 terrain.h
 texture.h
 tree.h
@@ -74,7 +78,6 @@ rocket.cpp
 simpengine.cpp
 sod.cpp
 startupOptions.cpp
-stdafx.cpp
 terrain.cpp
 texture.cpp
 tree.cpp
@@ -86,10 +89,11 @@ resources.rc
 )
 
 add_executable(${PROJ_NAME} ${FILES})
+set_target_properties(${PROJ_NAME} PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
+cotire(${PROJ_NAME})
 
 set_target_properties(${PROJ_NAME}
                       PROPERTIES
 		      LINK_FLAGS "/SUBSYSTEM:WINDOWS /SAFESEH:NO")
 
 # Debugging -> Working Directory -> $(ProjectDir)..
-# Precompiled header files: stdafx.h stdafx.cpp

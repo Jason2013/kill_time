@@ -12,7 +12,7 @@
 
 */
 
-#include "stdafx.h"
+//#include "stdafx.h"
 
 #include "oglwindow.h"
 

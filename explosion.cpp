@@ -9,7 +9,7 @@
 
 
 /********************************* Includes *********************************/
-#include "stdafx.h"
+//#include "stdafx.h"
 
 #include "explosion.h"
 #include "camera.h"

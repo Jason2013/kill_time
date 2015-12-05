@@ -1,4 +1,4 @@
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "tree.h"
 
 CNode * CNode::header = NULL;
