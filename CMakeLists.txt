@@ -89,11 +89,18 @@ resources.rc
 )
 
 add_executable(${PROJ_NAME} ${FILES})
-set_target_properties(${PROJ_NAME} PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
-cotire(${PROJ_NAME})
 
 set_target_properties(${PROJ_NAME}
                       PROPERTIES
 		      LINK_FLAGS "/SUBSYSTEM:WINDOWS /SAFESEH:NO")
+
+set_target_properties(${PROJ_NAME} PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
+
+cotire(${PROJ_NAME})
+
+add_custom_command(
+   TARGET ${PROJ_NAME} POST_BUILD
+   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/${PROJ_NAME}${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_CURRENT_SOURCE_DIR}"
+)
 
 # Debugging -> Working Directory -> $(ProjectDir)..
