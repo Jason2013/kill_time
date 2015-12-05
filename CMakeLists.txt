@@ -80,6 +80,10 @@ resources.rc
 
 add_executable(${PROJ_NAME} ${FILES})
 
+set_target_properties(${PROJ_NAME}
+                      PROPERTIES
+		      LINK_FLAGS "/SUBSYSTEM:WINDOWS /SAFESEH:NO")
+
 # Linker -> Advanced -> Image Has Safe Exception Handlers: No (/SAFESEH:NO)
 # Linker -> System -> SubSystem: Windows (/SUBSYSTEM:WINDOWS)
 # Debugging -> Working Directory -> $(ProjectDir)..
