@@ -2,18 +2,25 @@ cmake_minimum_required(VERSION 2.8)
 set(PROJ_NAME KILL_TIME)
 project(${PROJ_NAME})
 
+# Microsoft Windows SDK for Windows 7 and .NET Framework 3.5 SP1
+# https://www.microsoft.com/en-us/download/details.aspx?id=3138
+set(WIN_SDK7_DIR "C:/Program Files/Microsoft SDKs/Windows/v7.0A")
+
+# DirectX 8.1 SDK for VC++
+# http://download.csdn.net/download/mr_luowei2009/4262718
+set(DX8_DIR C:/chenchang/csdn/killtime/DX8_VcSdk)
+
 include_directories(
-"C:/Program Files/Microsoft Visual Studio 14.0/VC/include"
-"C:/Program Files/Microsoft SDKs/Windows/v7.0A/Include"
-"C:/chenchang/csdn/killtime/DX8_VcSdk/include"
+${WIN_SDK7_DIR}/Include
+${DX8_DIR}/include
 )
 
 link_libraries(
 opengl32.lib
 glu32.lib
 winmm.lib
-C:/chenchang/csdn/killtime/DX8_VcSdk/lib/dxguid.lib
-C:/chenchang/csdn/killtime/DX8_VcSdk/lib/dinput8.lib
+${DX8_DIR}/lib/dxguid.lib
+${DX8_DIR}/lib/dinput8.lib
 )
 
 set(FILES
@@ -84,8 +91,5 @@ set_target_properties(${PROJ_NAME}
                       PROPERTIES
 		      LINK_FLAGS "/SUBSYSTEM:WINDOWS /SAFESEH:NO")
 
-# Linker -> Advanced -> Image Has Safe Exception Handlers: No (/SAFESEH:NO)
-# Linker -> System -> SubSystem: Windows (/SUBSYSTEM:WINDOWS)
 # Debugging -> Working Directory -> $(ProjectDir)..
 # Precompiled header files: stdafx.h stdafx.cpp
-# 整理头文件、Lib文件
