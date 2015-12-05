@@ -149,7 +149,7 @@ void CRocket::OnDraw(CCamera *camera)
 void CRocket::Load()
 {
 	//CMD2Model::Load("models\\rocketair.md2", "models\\rocket.pcx");
-	explosionTex->LoadTexture("explosion.bmp");
+	explosionTex->LoadTexture("media/explosion.bmp");
 	SetupExplosionTexture();
 }
 

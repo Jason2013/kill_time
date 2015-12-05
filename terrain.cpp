@@ -67,7 +67,7 @@ void CTerrain::BuildTerrain(int w, float rFactor)
 	MakeTerrainPlasma(heightMap, width, rFactor);
 	
 	// load texture
-	terrainTex[0].LoadTexture("ground.tga");
+	terrainTex[0].LoadTexture("media/ground.tga");
 	glGenTextures(1, &terrainTex[0].texID);
 	glBindTexture(GL_TEXTURE_2D, terrainTex[0].texID);
 

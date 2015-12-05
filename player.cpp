@@ -27,7 +27,7 @@ void CPlayer::FireWeapon()
 	newRocket->forward = camera->lookAt.UnitVector();
 
 	newRocket->SetAudioSystem(audioSys);
-	newRocket->LoadAudio(audioSys, "explode.wav", false);
+	newRocket->LoadAudio(audioSys, "media/explode.wav", false);
 	newRocket->AttachTo(terrain);
 
 	//if (world->GetWeapon() == wRocket)

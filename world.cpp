@@ -50,7 +50,7 @@ CWorld::CWorld(CCamera *c)
 	player->SetTerrain(terrain);
 	player->SetWorld(this);
 
-	worldSound = audioSystem->Create("ambient.wav", false);
+	worldSound = audioSystem->Create("media/ambient.wav", false);
 	audioSystem->Play(worldSound, DMUS_SEG_REPEAT_INFINITE);
 
 	player->SetAudioSystem(audioSystem);
@@ -234,7 +234,7 @@ void CWorld::LoadGameResource()
 	static ModelRes gameRes[] ={
 		{"models\\sodf8\\tris.md2", "models\\sodf8\\abarlith.pcx"},	// Sod
 		{"models\\ogro\\tris.md2", "models\\ogro\\ogrobase.pcx"},	// Orgo
-		{"models\\rocketair.md2", "models\\rocket.pcx"},	// Rocket
+		{"models\\Rocket\\rocketair.md2", "models\\Rocket\\rocket.pcx"},	// Rocket
 	};
 	FreeGameResource();
 	for (int i = 0; i< (Rocket - Sod + 1); i++)

@@ -5,21 +5,21 @@
 bool CheckRequiredFiles()
 {
 	static char szBuffer[MAX_PATH];
-	static char * _files[] ={"ground.tga",
-		"ambient.wav",
-		"explode.wav",
-		"explosion.bmp",
-		"models\\rocketair.MD2",
-		"models\\Rocket.PCX",
-		"models\\Ogro\\Ogrobase.pcx",
-		"models\\Ogro\\Tris.MD2",
-		//"models\\Ogro\\Weapon.md2",
-		//"models\\Ogro\\Weapon.pcx",
-		//"models\\Ogro\\igdosh.pcx",
-		"models\\Sodf8\\Abarlith.pcx",
-		"models\\Sodf8\\Tris.MD2",
-		//"models\\Sodf8\\Weapon.PCX",
-		//"models\\Sodf8\\Weapon.md2"
+	static char * _files[] ={"media/ground.tga",
+		"media/ambient.wav",
+		"media/explode.wav",
+		"media/explosion.bmp",
+		"models/Rocket/rocketair.MD2",
+		"models/Rocket/Rocket.PCX",
+		"models/Ogro/Ogrobase.pcx",
+		"models/Ogro/Tris.MD2",
+		//"models/Ogro/Weapon.md2",
+		//"models/Ogro/Weapon.pcx",
+		//"models/Ogro/igdosh.pcx",
+		"models/Sodf8/Abarlith.pcx",
+		"models/Sodf8/Tris.MD2",
+		//"models/Sodf8/Weapon.PCX",
+		//"models/Sodf8/Weapon.md2"
 	};
 
 	for (int i=0; i<sizeof(_files)/sizeof(_files[0]); i++)
