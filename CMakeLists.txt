@@ -7,16 +7,17 @@ project(${PROJ_NAME})
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 include(cotire)
 
-# Microsoft Windows SDK for Windows 7 and .NET Framework 3.5 SP1
-# https://www.microsoft.com/en-us/download/details.aspx?id=3138
-set(WIN_SDK7_DIR "C:/Program Files/Microsoft SDKs/Windows/v7.0A")
+# Microsoft Windows SDK (for basetsd.h, in which POINTER_64 is defined)
+set(WIN_SDK_DIR
+"C:/Program Files (x86)/Windows Kits/8.1/Include/shared"
+)
 
 # DirectX 8.1 SDK for VC++
 # http://download.csdn.net/download/mr_luowei2009/4262718
-set(DX8_DIR C:/chenchang/csdn/killtime/DX8_VcSdk)
+set(DX8_DIR C:/chenchang/dev/DX8_VcSdk)
 
 include_directories(
-${WIN_SDK7_DIR}/Include
+${WIN_SDK_DIR}
 ${DX8_DIR}/include
 )
 
@@ -55,7 +56,6 @@ startupOptions.h
 terrain.h
 texture.h
 tree.h
-tree.org.h
 types.h
 utils.h
 vector.h
