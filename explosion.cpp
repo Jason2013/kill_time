@@ -125,7 +125,7 @@ void CExplosion::Render(CCamera * camera)
 	  return;
   }
 
-  glDisable(GL_DEPTH_TEST);
+  glDepthMask(GL_FALSE);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
 
@@ -154,5 +154,5 @@ void CExplosion::Render(CCamera * camera)
   glEnd();
   glDisable(GL_TEXTURE_2D);
   glDisable(GL_BLEND);
-  glEnable(GL_DEPTH_TEST);
+  glDepthMask(GL_TRUE);
 } // end CExplosion::Update
