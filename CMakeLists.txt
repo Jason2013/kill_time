@@ -9,7 +9,7 @@ include(cotire)
 
 # Microsoft Windows SDK (for basetsd.h, in which POINTER_64 is defined)
 set(WIN_SDK_DIR
-"C:/Program Files (x86)/Windows Kits/8.1/Include/shared"
+    "C:/Program Files (x86)/Windows Kits/8.1/Include/shared"
 )
 
 # DirectX 8.1 SDK for VC++
@@ -17,90 +17,88 @@ set(WIN_SDK_DIR
 set(DX8_DIR C:/chenchang/dev/DX8_VcSdk)
 
 include_directories(
-${WIN_SDK_DIR}
-${DX8_DIR}/include
+    ${WIN_SDK_DIR}
+    ${DX8_DIR}/include
 )
 
 link_libraries(
-opengl32.lib
-glu32.lib
-winmm.lib
-${DX8_DIR}/lib/dxguid.lib
-${DX8_DIR}/lib/dinput8.lib
+    opengl32.lib
+    glu32.lib
+    winmm.lib
+    ${DX8_DIR}/lib/dxguid.lib
+    ${DX8_DIR}/lib/dinput8.lib
 )
 
 set(FILES
-afxres.h
-audiosystem.h
-camera.h
-enemy.h
-engine.h
-entity.h
-explosion.h
-font.h
-GLTools.h
-gui.h
-HiResTimer.h
-InputSystem.h
-md2.h
-object.h
-oglwindow.h
-ogro.h
-Particles.h
-player.h
-resource.h
-rocket.h
-simpengine.h
-sod.h
-startupOptions.h
-terrain.h
-texture.h
-tree.h
-types.h
-utils.h
-vector.h
-vtrace.h
-world.h
-audiosystem.cpp
-camera.cpp
-engine.cpp
-entity.cpp
-explosion.cpp
-font.cpp
-gui.cpp
-InputSystem.cpp
-md2.cpp
-oglwindow.cpp
-ogro.cpp
-Particles.cpp
-player.cpp
-rocket.cpp
-simpengine.cpp
-sod.cpp
-startupOptions.cpp
-terrain.cpp
-texture.cpp
-tree.cpp
-utils.cpp
-vtrace.cpp
-winmain.cpp
-world.cpp
-resources.rc
+    afxres.h
+    audiosystem.cpp
+    audiosystem.h
+    camera.cpp
+    camera.h
+    enemy.h
+    engine.cpp
+    engine.h
+    entity.cpp
+    entity.h
+    explosion.cpp
+    explosion.h
+    font.cpp
+    font.h
+    GLTools.h
+    gui.cpp
+    gui.h
+    HiResTimer.h
+    InputSystem.cpp
+    InputSystem.h
+    md2.cpp
+    md2.h
+    object.h
+    oglwindow.cpp
+    oglwindow.h
+    ogro.cpp
+    ogro.h
+    Particles.cpp
+    Particles.h
+    player.cpp
+    player.h
+    resource.h
+    resources.rc
+    rocket.cpp
+    rocket.h
+    simpengine.cpp
+    simpengine.h
+    sod.cpp
+    sod.h
+    startupOptions.cpp
+    startupOptions.h
+    terrain.cpp
+    terrain.h
+    texture.cpp
+    texture.h
+    tree.cpp
+    tree.h
+    types.h
+    utils.cpp
+    utils.h
+    vector.h
+    vtrace.cpp
+    vtrace.h
+    winmain.cpp
+    world.cpp
+    world.h
 )
 
 add_executable(${PROJ_NAME} ${FILES})
 
-set_target_properties(${PROJ_NAME}
-                      PROPERTIES
-		      LINK_FLAGS "/SUBSYSTEM:WINDOWS /SAFESEH:NO")
-
-set_target_properties(${PROJ_NAME} PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
+set_target_properties(${PROJ_NAME} PROPERTIES
+    LINK_FLAGS "/SUBSYSTEM:WINDOWS /SAFESEH:NO"
+    COTIRE_ADD_UNITY_BUILD FALSE
+)
 
 cotire(${PROJ_NAME})
 
 add_custom_command(
-   TARGET ${PROJ_NAME} POST_BUILD
-   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/${PROJ_NAME}${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_CURRENT_SOURCE_DIR}"
+    TARGET ${PROJ_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/media" "${CMAKE_BINARY_DIR}/media"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/models" "${CMAKE_BINARY_DIR}/models"
 )
-
-# Debugging -> Working Directory -> $(ProjectDir)..
