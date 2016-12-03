@@ -1,5 +1,5 @@
 //#include "stdafx.h"
-
+#include <cassert>
 #include "texture.h"
 
 // LoadBitmapFile
@@ -16,6 +16,7 @@ unsigned char *CTexture::LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmap
 
 	// open filename in "read binary" mode
 	filePtr = fopen(filename, "rb");
+    assert(filePtr != NULL);
 	if (filePtr == NULL)
 		return NULL;
 
@@ -116,6 +117,7 @@ unsigned char *CTexture::LoadPCXFile(char *filename, PCXHEADER *pcxHeader)
 
      // open PCX file
      filePtr = fopen(filename, "rb");
+     assert(filePtr != NULL);
      if (filePtr == NULL)
           return NULL;
 
@@ -233,6 +235,7 @@ void CTexture::LoadPCXTexture(char *filename)
 
      // load the PCX file into the texture struct
      data = LoadPCXFile(filename, &texInfo);
+     assert(data != NULL);
      if (data == NULL)
      {
           free(data);
@@ -309,6 +312,7 @@ void CTexture::LoadBMPTexture(char *filename)
 
 	// store BMP data in texture
 	data = LoadBitmapFileWithAlpha(filename, &texInfo);
+    assert(data != NULL);
 	if (data == NULL)
 	{
 		free(data);
@@ -358,6 +362,7 @@ unsigned char *CTexture::LoadTGAFile(char *filename, TGAHEADER *tgaHeader)
 
 	// open the TGA file
 	filePtr = fopen(filename, "rb");
+    assert(filePtr != NULL);
 	if (!filePtr)
 		return NULL;
 	

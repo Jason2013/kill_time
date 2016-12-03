@@ -1,5 +1,5 @@
 //#include "stdafx.h"
-
+#include <cassert>
 #include "md2.h"
 
 // CalculateNormal()
@@ -158,6 +158,7 @@ int CMD2Model::Load(char *modelFile, char *skinFile)
      
      // open the model file
      filePtr = fopen(modelFile, "rb");
+     assert(filePtr != NULL);
      if (filePtr == NULL)
           return FALSE;
      
@@ -259,6 +260,7 @@ int CMD2Model::LoadModel(char *modelFile)
      
      // open the model file
      filePtr = fopen(modelFile, "rb");
+     assert(filePtr != NULL);
      if (filePtr == NULL)
           return FALSE;
      
