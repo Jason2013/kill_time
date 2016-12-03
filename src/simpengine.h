@@ -59,6 +59,7 @@ public:
 	{
 		gameCamera = new CCamera;
 		gameWorld = new CWorld(gameCamera);
+		gameCamera->world = gameWorld;
 		gameCamera->centerX = centerX;
 		gameCamera->centerY = centerY;
 		gameWorld->SetScreen(w,h);

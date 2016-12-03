@@ -1,5 +1,5 @@
-#include "stdafx.h"
-
+//#include "stdafx.h"
+#include "vtrace.h"
 #include "terrain.h"
 
 CTerrain::CTerrain()
@@ -50,6 +50,18 @@ void CTerrain::BuildTerrain(int w, float rFactor)
 {
 	width = w;
 	heightMap = new float[width*width];
+
+	vertices = new CVector[width*width];
+	vertVisible = new BOOL[width*width];
+	vertTexCoord = new VertTex[width*width];
+	
+
+	//trisCG = new CVector[(width-1)*(width-1)*2];
+	trisVisible = new BOOL[(width-1)*(width-1)*2];
+	trisIndex = new TriIndex[(width-1)*(width-1)*2];
+	trisDrawIndex = new int[(width-1)*(width-1)*2*3]; // num triangle * 3
+	//trisBufferF = new float[(width-1)*(width-1)*2];
+	
 	memset(heightMap, 0, sizeof(float)*width*width);
 	VTRACE("%i=%f\n", 100, heightMap[100]);
 	VTRACE("%i=%f\n", 200, heightMap[200]);
@@ -115,30 +127,14 @@ void CTerrain::OnDraw(CCamera *camera)
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
+	CalcVertexVisibility(camera);
+	CalcTriangleVisibility(camera);
+	CalcTriangleDrawIndex();
+
 	glColor3f(1.0, 1.0, 1.0);
-	for (z = (int)(camera->position.z / terrainMul - scanDepth), z=z<0?0:z; (z < camera->position.z / terrainMul + scanDepth) && z < width-1; z++)
-	{
-		glBegin(GL_TRIANGLE_STRIP);
-		for (x = (int)(camera->position.x / terrainMul - scanDepth), x=x<0?0:x; (x < camera->position.x / terrainMul + scanDepth) && x < width-1; x++)
-		{
-		//	glColor3f(heightMap[x+z*width], heightMap[x+z*width], heightMap[x+z*width]);
-			glTexCoord2f(textureMul * x, textureMul * z);
-			glVertex3f((float)x*terrainMul, (float)heightMap[x + z*width]*heightMul, (float)z*terrainMul);
 
-		//	glColor3f(heightMap[x+1+z*width], heightMap[x+1+z*width], heightMap[x+1+z*width]);
-			glTexCoord2f(textureMul * (x+1), textureMul * z);
-			glVertex3f((float)(x+1)*terrainMul, (float)heightMap[x+1 + z*width]*heightMul, (float)z*terrainMul);
-
-		//	glColor3f(heightMap[x+(z+1)*width], heightMap[x+(z+1)*width], heightMap[x+(z+1)*width]);
-			glTexCoord2f(textureMul * x, textureMul * (z+1));
-			glVertex3f((float)x*terrainMul, (float)heightMap[x + (z+1)*width]*heightMul, (float)(z+1)*terrainMul);
-
-		//	glColor3f(heightMap[x+1+(z+1)*width], heightMap[x+1+(z+1)*width], heightMap[x+1+(z+1)*width]);
-			glTexCoord2f(textureMul * (x+1), textureMul * (z+1));
-			glVertex3f((float)(x+1)*terrainMul, (float)heightMap[x+1 + (z+1)*width]*heightMul, (float)(z+1)*terrainMul);
-		}
-		glEnd();
-	}
+	glDrawElements(GL_TRIANGLES, trisDrawNum, GL_UNSIGNED_INT, trisDrawIndex);
+	return;
 }
 
 // RangedRandom()
@@ -187,6 +183,26 @@ void CTerrain::NormalizeTerrain(float field[],int size)
 	{
 		field[i] = (field[i]-minVal)/dh;
 	}
+
+	for (int z=0; z<width; z++)
+	{
+		for (int x=0; x<width; x++)
+		{
+			int index = z*width + x;
+			vertices[index].x = terrainMul*x;
+			vertices[index].y = heightMul * field[index];//textureMul*x;
+			vertices[index].z = terrainMul*z;
+		}
+	}
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
+
+	CalcVertexTexCoord(); // texture coordinate
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glTexCoordPointer(2, GL_FLOAT, 0, vertTexCoord);
+
+	CalcTriangleIndex(); // triangle indexes
 
 }
 

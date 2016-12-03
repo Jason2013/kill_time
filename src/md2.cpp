@@ -1,4 +1,4 @@
-#include "stdafx.h"
+//#include "stdafx.h"
 #include <cassert>
 #include "md2.h"
 
@@ -303,8 +303,8 @@ int CMD2Model::LoadModel(char *modelFile)
      stPtr = (stIndex_t*)&buffer[modelHeader->offsetST];
      for (i = 0; i < numST; i++)
      {
-          st[i].s = 0.0;
-          st[i].t = 0.0;
+          st[i].s = 0.0f;
+          st[i].t = 0.0f;
      }
      
      numTriangles = modelHeader->numTris;
@@ -392,13 +392,8 @@ int CMD2Model::SetTexture(CTexture *texture)
 int CMD2Model::AnimateModel(int startFrame, int endFrame, float percent,
 							 int & currentFrame, int & nextFrame, float & interpol)//, CTexture * modelTex)
 {
-	vector_t *vList;              // current frame vertices
-	vector_t *nextVList;          // next frame vertices
-	int i;                                  // index counter
-	float x1, y1, z1;                  // current frame point values
-	float x2, y2, z2;                  // next frame point values
 
-	vector_t vertex[3]; 
+
 
 	if ((currentFrame < startFrame) || (currentFrame > endFrame))
 	{
@@ -430,13 +425,29 @@ int CMD2Model::AnimateModel(int startFrame, int endFrame, float percent,
 
 	}
 
+	//interpol += percent;  // increase percentage of interpolation between frames
+
+	//if (visible)
+	//{
+	int i;                                  // index counter
+	float x1, y1, z1;                  // current frame point values
+	float x2, y2, z2;                  // next frame point values
+
+	vector_t vertex[3]; 
+
+	vector_t *vList;              // current frame vertices
+	vector_t *nextVList;          // next frame vertices
 	vList = &vertexList[numVertices*currentFrame];
 	nextVList = &vertexList[numVertices*nextFrame];
 
 	glColor4f(1.0, 1.0, 1.0, 1.0);
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, modelTex->texID);
+
+	//glPushMatrix();
 	glBegin(GL_TRIANGLES);
+	//VTRACE("CMD2Model::AnimateModel():Triangles");//(%n)\n", numTriangles);
+	//VTRACE("CMD2Model::numVertices=%d,Triangles=%d\n", numVertices, numTriangles);//(%n)\n", numTriangles);
 	for (i = 0; i < numTriangles; i++)
 	{
 		// get first points of each frame
@@ -479,7 +490,7 @@ int CMD2Model::AnimateModel(int startFrame, int endFrame, float percent,
 		vertex[1].point[2] = z1 + interpol * (z2 - z1);
 
 		// calculate the normal of the triangle
-		// ï¿½ï¿½ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½Õ£ï¿½ï¿½ï¿½ï¿½Ô¹Ø±Õ·ï¿½ï¿½ß¼ï¿½ï¿½ï¿½
+		// ²»ÆôÓÃ¹âÕÕ£¬¿ÉÒÔ¹Ø±Õ·¨Ïß¼ÆËã
 		//CalculateNormal(vertex[0].point, vertex[2].point, vertex[1].point);
 
 		// render properly textured triangle
@@ -496,7 +507,139 @@ int CMD2Model::AnimateModel(int startFrame, int endFrame, float percent,
 		glVertex3fv(vertex[1].point);
 	}
 	glEnd();
+	//glPopMatrix();
 	glDisable(GL_TEXTURE_2D);
+	//}
+	interpol += percent;  // increase percentage of interpolation between frames
+
+
+
+	return 0;
+}
+
+
+int CMD2Model::DrawModel(//int startFrame, int endFrame,
+						 float percent,
+							int & currentFrame, int & nextFrame, float & interpol)//, BOOL visible)//, CTexture * modelTex)
+{
+
+
+
+	//if ((currentFrame < startFrame) || (currentFrame > endFrame))
+	//{
+	//	currentFrame = (rand() % (endFrame - startFrame)) + startFrame;
+	//}
+	//nextFrame = currentFrame +1;
+	//if (nextFrame > endFrame)
+	//{
+	//	nextFrame = startFrame;
+	//}
+
+	//if ((startFrame < 0) || (endFrame < 0))
+	//	return -1;
+
+	//if ((startFrame >= numFrames) || (endFrame >= numFrames))
+	//	return -1;
+
+	//if (interpol >= 1.0)
+	//{
+	//	interpol = 0.0f;
+	//	currentFrame++;
+	//	if (currentFrame >= endFrame)
+	//		currentFrame = startFrame;
+
+	//	nextFrame = currentFrame + 1;
+
+	//	if (nextFrame >= endFrame)
+	//		nextFrame = startFrame;
+
+	//}
+
+	//interpol += percent;  // increase percentage of interpolation between frames
+
+	//if (visible)
+	//{
+	int i;                                  // index counter
+	float x1, y1, z1;                  // current frame point values
+	float x2, y2, z2;                  // next frame point values
+
+	vector_t vertex[3]; 
+
+	vector_t *vList;              // current frame vertices
+	vector_t *nextVList;          // next frame vertices
+	vList = &vertexList[numVertices*currentFrame];
+	nextVList = &vertexList[numVertices*nextFrame];
+
+	glColor4f(1.0, 1.0, 1.0, 1.0);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, modelTex->texID);
+
+	//glPushMatrix();
+	glBegin(GL_TRIANGLES);
+	//VTRACE("CMD2Model::AnimateModel():Triangles");//(%n)\n", numTriangles);
+	//VTRACE("CMD2Model::numVertices=%d,Triangles=%d\n", numVertices, numTriangles);//(%n)\n", numTriangles);
+	for (i = 0; i < numTriangles; i++)
+	{
+		// get first points of each frame
+		x1 = vList[triIndex[i].meshIndex[0]].point[0];
+		y1 = vList[triIndex[i].meshIndex[0]].point[1];
+		z1 = vList[triIndex[i].meshIndex[0]].point[2];
+		x2 = nextVList[triIndex[i].meshIndex[0]].point[0];
+		y2 = nextVList[triIndex[i].meshIndex[0]].point[1];
+		z2 = nextVList[triIndex[i].meshIndex[0]].point[2];
+
+		// store first interpolated vertex of triangle
+		vertex[0].point[0] = x1 + interpol * (x2 - x1);
+		vertex[0].point[1] = y1 + interpol * (y2 - y1);
+		vertex[0].point[2] = z1 + interpol * (z2 - z1);
+
+		// get second points of each frame
+		x1 = vList[triIndex[i].meshIndex[2]].point[0];
+		y1 = vList[triIndex[i].meshIndex[2]].point[1];
+		z1 = vList[triIndex[i].meshIndex[2]].point[2];
+		x2 = nextVList[triIndex[i].meshIndex[2]].point[0];
+		y2 = nextVList[triIndex[i].meshIndex[2]].point[1];
+		z2 = nextVList[triIndex[i].meshIndex[2]].point[2];
+
+		// store second interpolated vertex of triangle
+		vertex[2].point[0] = x1 + interpol * (x2 - x1);
+		vertex[2].point[1] = y1 + interpol * (y2 - y1);
+		vertex[2].point[2] = z1 + interpol * (z2 - z1);   
+
+		// get third points of each frame
+		x1 = vList[triIndex[i].meshIndex[1]].point[0];
+		y1 = vList[triIndex[i].meshIndex[1]].point[1];
+		z1 = vList[triIndex[i].meshIndex[1]].point[2];
+		x2 = nextVList[triIndex[i].meshIndex[1]].point[0];
+		y2 = nextVList[triIndex[i].meshIndex[1]].point[1];
+		z2 = nextVList[triIndex[i].meshIndex[1]].point[2];
+
+		// store third interpolated vertex of triangle
+		vertex[1].point[0] = x1 + interpol * (x2 - x1);
+		vertex[1].point[1] = y1 + interpol * (y2 - y1);
+		vertex[1].point[2] = z1 + interpol * (z2 - z1);
+
+		// calculate the normal of the triangle
+		// ²»ÆôÓÃ¹âÕÕ£¬¿ÉÒÔ¹Ø±Õ·¨Ïß¼ÆËã
+		//CalculateNormal(vertex[0].point, vertex[2].point, vertex[1].point);
+
+		// render properly textured triangle
+		glTexCoord2f(st[triIndex[i].stIndex[0]].s,
+			st[triIndex[i].stIndex[0]].t);
+		glVertex3fv(vertex[0].point);
+
+		glTexCoord2f(st[triIndex[i].stIndex[2]].s ,
+			st[triIndex[i].stIndex[2]].t);
+		glVertex3fv(vertex[2].point);
+
+		glTexCoord2f(st[triIndex[i].stIndex[1]].s,
+			st[triIndex[i].stIndex[1]].t);
+		glVertex3fv(vertex[1].point);
+	}
+	glEnd();
+	//glPopMatrix();
+	glDisable(GL_TEXTURE_2D);
+	//}
 
 	interpol += percent;  // increase percentage of interpolation between frames
 

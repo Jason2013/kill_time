@@ -191,7 +191,7 @@ public:
      // length of vector
      const scalar_t Length() const
      {
-          return (scalar_t)sqrt((double)(x*x + y*y + z*z));
+          return (scalar_t)sqrt(/*(double)*/(float)(x*x + y*y + z*z));
      }
 
      // return the unit vector
@@ -246,5 +246,13 @@ public:
 			          normal + (*this ^ normal) * sine);
 	}
 };
+
+inline void CrossProduct(const CVector & vec1, const CVector & vec2, CVector & vec3)
+{
+	//return CVector(y*vec.z - z*vec.y, z*vec.x - x*vec.z, x*vec.y - y*vec.x);
+	vec3.x = vec1.y*vec2.z - vec1.z*vec2.y;
+	vec3.y = vec1.z*vec2.x - vec1.x*vec2.z;
+	vec3.z = vec1.x*vec2.y - vec1.y*vec2.x;
+}
 
 #endif

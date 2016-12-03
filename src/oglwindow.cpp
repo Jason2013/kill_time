@@ -12,13 +12,16 @@
 
 */
 
-#include "stdafx.h"
+//#include "stdafx.h"
 
 #include "oglwindow.h"
 
 bool bLMB = false;		// left mouse button
 bool bRMB = false;		// right mouse button
 LPARAM Drag;			// mouse drag
+
+//const GLfloat g_fFovY = 54.0f;
+GLfloat g_fAspect;
 
 // SetupPixelFormat()
 // desc: setup the pixel format for OpenGL

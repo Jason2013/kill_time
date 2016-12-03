@@ -1,7 +1,6 @@
 #define WIN32_MEAN_AND_LEAN
 #define WIN32_EXTRA_LEAN
-
-#include "stdafx.h"
+//#include "stdafx.h"
 
 #include "font.h"
 

@@ -1,7 +1,7 @@
 #define WIN32_LEAN_AND_MEAN
 #define WIN32_EXTRA_LEAN
 
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "vtrace.h"
 #include <stdlib.h>
 
@@ -68,7 +68,7 @@ void CEngine::CheckInput(float deltaTime)
 	if (inputSystem->KeyPressing(DIK_F2))
 		OnKeyPressing(DIK_F2);
 	{
-		static int s_lastState = false;
+		static bool s_lastState = false;
 		bool state = inputSystem->ButtonDown(1);
 		if (state && (!s_lastState))
 		{

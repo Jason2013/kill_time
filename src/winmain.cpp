@@ -13,8 +13,9 @@
 */
 
 
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "utils.h"
+#include "vtrace.h"
 #include <windows.h>
 
 #include "oglwindow.h"		// the OpenGL window class

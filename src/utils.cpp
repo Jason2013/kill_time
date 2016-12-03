@@ -1,4 +1,7 @@
-#include "stdafx.h"
+//#include "stdafx.h"
+#include <windows.h>
+#include <stdio.h>
+#include <io.h>
 
 #include "utils.h"
 

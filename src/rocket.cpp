@@ -1,4 +1,4 @@
-#include "stdafx.h"
+//#include "stdafx.h"
 
 #include "rocket.h"
 
@@ -7,7 +7,7 @@ CRocket::CRocket(CMD2Model * pmd2, Weapon type) : CEntity(pmd2)
 	//VTRACE("CRocket::CRocket(%x)\n", this);
 	velocity = CVector(0.0, 0.0, 120.0);
 	acceleration = CVector(0.0, 0.0, 0.0);
-	distanceTravel = 0.0;
+	distanceTravel = 0.0f;
 	size = 1.0f;
 	isExplosion = false;
 
@@ -69,7 +69,7 @@ void CRocket::OnAnimate(scalar_t deltaTime)
 
 	if (!isExplosion)
 	{
-		if (distanceTravel >= 1000000.0f)
+		if (distanceTravel >= 2500.0f)
 		{
 			//isExplosion = true;
 			//velocity = CVector(0.0, 0.0, 0.0);
@@ -120,19 +120,28 @@ void CRocket::OnDraw(CCamera *camera)
 	// if the rocket has not yet exploded, draw the rocket model
 	if (!isExplosion)
 	{
+		//if (! camera->VisibleOfSphere(position, size))
+		if (! visible)
+		{
+			return;
+		}
 		glEnable(GL_TEXTURE_2D);
 		glColor3f(1.0, 1.0, 1.0);
+
+		glPushMatrix();
 		glTranslatef(position.x, position.y, position.z);
 		glRotatef(-direction, 0.0, 1.0, 0.0);
 		glScalef(0.025f, 0.025f, 0.025f);
 		pModel->RenderFrame(0);
+		glPopMatrix();
+
 		glDisable(GL_TEXTURE_2D);
 	}
 	// draw explosion
 	else
 	{
 		glDisable(GL_FOG);
-		explosion->Render();
+		explosion->Render(camera);
 		glEnable(GL_FOG);
 	}
 }
@@ -141,7 +150,7 @@ void CRocket::OnDraw(CCamera *camera)
 void CRocket::Load()
 {
 	//CMD2Model::Load("models\\rocketair.md2", "models\\rocket.pcx");
-	explosionTex->LoadTexture("media/explosion.bmp");
+	explosionTex->LoadTexture("media\\explosion.bmp");
 	SetupExplosionTexture();
 }
 

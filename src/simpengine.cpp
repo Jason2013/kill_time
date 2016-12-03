@@ -1,7 +1,7 @@
 #define WIN32_LEAN_AND_MEAN
 #define WIN32_EXTRA_LEAN
 
-#include "stdafx.h"
+//#include "stdafx.h"
 
 #include "simpengine.h"
 
@@ -23,6 +23,8 @@ void CSimpEngine::OnPrepare()
 	glEnable(GL_SMOOTH);
 	glClearStencil(0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 
 	GLdouble fovy;
 

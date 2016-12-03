@@ -8,14 +8,14 @@ Date: 4/4/2001
 Description:
 
 */
-#include "stdafx.h"
+//#include "stdafx.h"
 
 #include "camera.h"
 #include "object.h"
 
 CCamera::CCamera()
 {
-	position = CVector(0.0, 20.0, 0.0);
+	position = CVector(32.0 * 50.0 /2.0f, 20.0, 32.0 * 50.0 /2.0f);
 	lookAt = CVector(0.0, 0.0, 1.0);
 
 	forward = lookAt;
@@ -256,5 +256,7 @@ void CCamera::Animate(scalar_t deltaTime)
 	gluLookAt(position.x, position.y, position.z,
 		lookAt.x, lookAt.y, lookAt.z,
 		0.0, 1.0, 0.0);
+
+	CalcClipNormals();
 
 }

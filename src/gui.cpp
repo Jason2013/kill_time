@@ -1,9 +1,18 @@
-#include "stdafx.h"
-
+//#include "stdafx.h"
+#include <tchar.h>
+#include <string.h>
 #include "gui.h"
 #include <math.h>
 
 #include "world.h"
+extern int g_nVisibleOfEnemies;
+
+//CGUI::CGUI()
+//{
+//	minutesLeft = secondsLeft = enemiesLeft = 0;
+//	font = new CFont("Arial", 16);
+//	endText = new CFont("Arial", 40);
+//}
 
 CGUI::CGUI()
 {
@@ -15,6 +24,14 @@ CGUI::CGUI()
 
 	m_showHelp = GL_TRUE;
 }
+
+//CGUI::~CGUI()
+//{
+//	font->ClearFont();
+//	endText->ClearFont();
+//	delete font;
+//	delete endText;
+//}
 
 CGUI::~CGUI()
 {
@@ -53,6 +70,14 @@ void CGUI::DrawWinner()
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_STENCIL_TEST);
 
+//	endText->SetRGB(1.0f, 0.2f, 0.2f);
+
+//	endText->SetPos2D(-100, 30);
+//	endText->Print("YOU WIN!");
+
+//	endText->SetPos2D(-160, -20);
+//	endText->Print("Press Esc to exit");
+
 	glColor3f(1.0f,0.2f,0.2f);
 
 	sprintf(szBuffer, "你胜利了！");
@@ -79,8 +104,15 @@ void CGUI::DrawLoser()
 
 	glColor3f(0.2f,1.0f,0.2f);
 
+//	endText->SetRGB(0.2f, 1.0f, 0.2f);
+//	endText->SetPos2D(-100, 30);
+//	endText->Print("YOU LOSE!");
+
 	sprintf(szBuffer, "你失败了！");
 	ShowText(0, 26, szBuffer, Center, type2);
+
+//	endText->SetPos2D(-160, -20);
+//	endText->Print("Press Esc to exit");
 
 	sprintf(szBuffer, "按ESC键退出");
 	ShowText(0, 0, szBuffer, Center, type2);
@@ -119,12 +151,19 @@ void CGUI::Draw()
 
 
 		int y = height /2 - 16;
+		int x = width /2 - 140;
+
+//		font->SetRGB(1.0f, 0.0f, 0.0f);
+//		font->SetPos2D(x, y);
+//		font->Print("FPS: %03.2f", m_fps);
 
 		sprintf(szBuffer, "每秒帧数:%03.2f", m_fps);
 		ShowText(width / 2 - 10, y, szBuffer, Right, type1);
 
 		y -= 16;
 
+//		font->SetPos2D(x, y);
+//		font->Print("Time: %02d:%02d:%02d",minutesLeft, secondsLeft, millisecondsLeft);
 		sprintf(szBuffer, "剩余时间:%02d:%02d:%02d",minutesLeft, secondsLeft, millisecondsLeft);
 		ShowText(width / 2 - 10, y, szBuffer, Right, type1);
 

@@ -9,10 +9,11 @@
 
 
 /********************************* Includes *********************************/
-#include "stdafx.h"
+//#include "stdafx.h"
 
 #include "explosion.h"
-
+#include "camera.h"
+#include "terrain.h"
 
 /*****************************************************************************
  CExplosion::Constructor
@@ -105,13 +106,24 @@ void CExplosion::Update(float elapsedTime)
 
  Draw the snowflake particles as textured quads
 *****************************************************************************/
-void CExplosion::Render()
+void CExplosion::Render(CCamera * camera)
 {
+	CTerrain * terrain = camera->terrain;
+	CVector eye(camera->position);
+
   float viewMatrix[16];
   glGetFloatv(GL_MODELVIEW_MATRIX, viewMatrix);
 
   CVector right(viewMatrix[0], viewMatrix[4], viewMatrix[8]);
   CVector up(viewMatrix[1], viewMatrix[5], viewMatrix[9]);
+
+  CVector tmp(m_origin);
+  tmp.y += m_spread;
+
+  if (! terrain->DirectView(eye, tmp)) // visibility of the explosion peak
+  {
+	  return;
+  }
 
   glDisable(GL_DEPTH_TEST);
   glEnable(GL_BLEND);
@@ -129,6 +141,10 @@ void CExplosion::Render()
   {
     size = m_particleList[i].m_size/2;
     pos = m_particleList[i].m_pos;
+	if (!terrain->DirectView(eye, pos+up*(-size))) // visibility of the bottom
+	{
+		continue;
+	}
     glColor4fv(m_particleList[i].m_color);
     glTexCoord2f(0.0, 0.0); glVertex3fv((pos + (right + up) * -size).v);
     glTexCoord2f(1.0, 0.0); glVertex3fv((pos + (right - up) * size).v);

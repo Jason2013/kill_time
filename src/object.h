@@ -53,35 +53,69 @@ public:
 
      bool isDead;
 
-     CObject() { isDead = false; }
+	 BOOL visible;
+
+     CObject() { isDead = false; visible = TRUE; }
      ~CObject() {}
 
      virtual void Load() {}
      virtual void Unload() {}
+	 virtual BOOL CalcVisibility(CCamera * camera){visible = TRUE;return visible;}
+	 virtual int  CalcDistanceSqr(CCamera * camera){return 0;}
 
      // draw object
-     void Draw(CCamera *camera) 
+	 void Draw(CCamera *camera) 
 	 {
-		 CObject * firstChild = this;
-		 CObject * currChild  = this;
-		 CObject * lastChild  = (CObject*)prevNode;
+		 static CObject * objs[256];
+		 static int distance[256];
 
-		 while(true)
+		 this->OnDraw(camera); /* this pointer points to the terrain */
+		 CObject * cur = (CObject * )this->next;
+
+		 int nv = 0; // number of enemies, rockets(explosions)
+
+		 while (cur != NULL)
 		 {
-			 glPushMatrix();
-			 currChild->OnDraw(camera);          // draw this object
-			 if (currChild->HasChild())          // draw children
-				 ((CObject*)(currChild->childNode))->Draw(camera);
-			 glPopMatrix();
-
-			 if (currChild == lastChild)
+			 if (cur->CalcVisibility(camera))
 			 {
-				 break;
+				 objs[nv] = cur;
+				 distance[nv] = cur->CalcDistanceSqr(camera);
+				 nv ++;
 			 }
-			 currChild = (CObject*)currChild->nextNode;
+			 cur = (CObject *)cur->next;
 		 }
 
-		 return;
+		 // sort enemies, rockets by the distance from the camera
+		 for (int i=0; i<nv-1; i++)
+		 {
+			 int k=i;
+			 for (int j=i+1; j<nv; j++)
+			 {
+				 if (distance[j]>distance[k])
+				 {
+					 k=j;
+				 }
+			 }
+			 if (k != i)
+			 {
+				 CObject * temp = objs[i];
+				 objs[i] = objs[k];
+				 objs[k] = temp;
+
+				 int t = distance[i];
+				 distance[i] = distance[k];
+				 distance[k] = t;
+			 }
+		 }
+
+		 // draw enemies, rockets from the far to near
+		 for (int i=0; i<nv; i++)
+		 {
+			 objs[i]->OnDraw(camera);
+		 }
+	 }
+
+//		 return;
 		 
 
 		 //while (currChild != firstChild)
@@ -115,7 +149,7 @@ public:
 			// } while(true);
 
 		 //}
-	 }
+//	 }
 
      // animate object
      void Animate(scalar_t deltaTime) 

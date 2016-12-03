@@ -12,7 +12,7 @@
 
 /********************************* Includes *********************************/
 #include "Particles.h"
-
+#include "camera.h"
 
 /*************************** Constants and Macros ***************************/
 const CVector PARTICLE_VELOCITY  (0.0f, 2.0f, 0.0f);
@@ -30,7 +30,7 @@ public:
   CExplosion(int maxParticles, CVector origin, float spread, GLuint texture);
 
   void  Update(float elapsedTime);
-  void  Render();
+  void  Render(CCamera * camera);
 
   bool  IsDead() { return m_numParticles == 0; }
 

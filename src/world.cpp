@@ -1,4 +1,4 @@
-#include "stdafx.h"
+//#include "stdafx.h"
 
 #include "world.h"
 
@@ -21,6 +21,7 @@ CWorld::~CWorld()
 
 	delete gui;
 	delete terrain;
+	delete player;
 	delete audioSystem;
 	delete worldSound;
 
@@ -34,6 +35,7 @@ CWorld::CWorld(CCamera *c)
 {
 	camera = c;
 	terrain = new CTerrain(32, 1.0f);
+	c->terrain = terrain;
 	player = new CPlayer;
 	audioSystem = new CAudioSystem;
 	gui = new CGUI;

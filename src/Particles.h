@@ -50,7 +50,7 @@ public:
 
   // abstract functions
   virtual void  Update(float elapsedTime)     = 0;
-  virtual void  Render()                      = 0;
+  virtual void  Render() {}// = 0;
 
   virtual int   Emit(int numParticles);
 
@@ -58,7 +58,7 @@ public:
   virtual void  KillSystem();
 
 protected:
-  virtual void  InitializeParticle(int index) = 0;
+	virtual void  InitializeParticle(int index) = 0;
   particle_t *m_particleList;    // particles for this emitter
   int         m_maxParticles;     // maximum number of particles in total
   int         m_numParticles;     // indicies of all free particles
