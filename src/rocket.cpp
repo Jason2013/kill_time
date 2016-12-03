@@ -1,19 +1,19 @@
-//#include "stdafx.h"
+#include "stdafx.h"
 
 #include "rocket.h"
 
-CRocket::CRocket(CMD2Model * pmd2) : CEntity(pmd2)
+CRocket::CRocket(CMD2Model * pmd2, Weapon type) : CEntity(pmd2)
 {
 	//VTRACE("CRocket::CRocket(%x)\n", this);
 	velocity = CVector(0.0, 0.0, 120.0);
 	acceleration = CVector(0.0, 0.0, 0.0);
-	distanceTravel = 0.0f;
+	distanceTravel = 0.0;
 	size = 1.0f;
 	isExplosion = false;
 
 	explosion = NULL;
 	explosionTex = new CTexture;
-	//m_wType = type;
+	m_wType = type;
 
 	Load();
 	
@@ -62,14 +62,14 @@ void CRocket::OnAnimate(scalar_t deltaTime)
 	position.y += float(sinPitch)*speed;
 	position.z += float(sinYaw)*speed;
 
-	distanceTravel += speed;// position.Length();
+	distanceTravel += position.Length();
 
 	if (isExplosion)
 		explosion->Update(deltaTime);
 
 	if (!isExplosion)
 	{
-		if (distanceTravel >= 2500.0f)
+		if (distanceTravel >= 1000000.0f)
 		{
 			//isExplosion = true;
 			//velocity = CVector(0.0, 0.0, 0.0);
@@ -104,14 +104,15 @@ void CRocket::OnCollision(CObject *collisionObject)
 void CRocket::Explode(bool onCollide)
 {
 	int num = onCollide ? 500 : 200;
-	//if (m_wType == wGun)
-	//	num /= 10;
+	if (m_wType == wGun)
+		num /= 10;
 
-	//float spread = m_wType == wGun ? 2.0f : 8.0f;
+	float spread = m_wType == wGun ? 2.0f : 8.0f;
 
 	isExplosion = true;
 	velocity = CVector(0.0, 0.0, 0.0);
-	explosion = new CExplosion(num, position, 8.0f, explosionTex->texID);
+	explosion = new CExplosion(num, position, spread, explosionTex->texID);
+	
 }
 
 void CRocket::OnDraw(CCamera *camera)
@@ -119,29 +120,20 @@ void CRocket::OnDraw(CCamera *camera)
 	// if the rocket has not yet exploded, draw the rocket model
 	if (!isExplosion)
 	{
-		//if (! camera->VisibleOfSphere(position, size))
-		if (! visible)
-		{
-			return;
-		}
 		glEnable(GL_TEXTURE_2D);
 		glColor3f(1.0, 1.0, 1.0);
-
-		glPushMatrix();
 		glTranslatef(position.x, position.y, position.z);
 		glRotatef(-direction, 0.0, 1.0, 0.0);
 		glScalef(0.025f, 0.025f, 0.025f);
 		pModel->RenderFrame(0);
-		glPopMatrix();
-
 		glDisable(GL_TEXTURE_2D);
 	}
 	// draw explosion
 	else
 	{
-		//glDisable(GL_FOG);
-		explosion->Render(camera);
-		//glEnable(GL_FOG);
+		glDisable(GL_FOG);
+		explosion->Render();
+		glEnable(GL_FOG);
 	}
 }
 

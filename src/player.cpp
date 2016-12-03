@@ -1,4 +1,4 @@
-//#include "stdafx.h"
+#include "stdafx.h"
 
 #include "player.h"
 #include "world.h"
@@ -11,15 +11,15 @@ void CPlayer::FireWeapon()
 	// create the new ammo and attach it to
 	// the world. fire the ammo
 
-	CRocket *newRocket = new CRocket(world->GetMd2Model(Rocket));
-	//if (world->GetWeapon() == wRocket)
-	//{
-	//	newRocket = new CRocket(world->GetMd2Model(Rocket)), wRocket);
-	//}
-	//else
-	//{
-	//	newRocket = new CRocket(world->GetMd2Model(Rocket), wGun);
-	//}
+	CRocket *newRocket;
+	if (world->GetWeapon() == wRocket)
+	{
+		newRocket = new CRocket(world->GetMd2Model(Rocket), wRocket);
+	}
+	else
+	{
+		newRocket = new CRocket(world->GetMd2Model(Rocket), wGun);
+	}
 
 	newRocket->pitch = camera->pitch;
 	newRocket->direction = direction;
@@ -30,24 +30,24 @@ void CPlayer::FireWeapon()
 	newRocket->LoadAudio(audioSys, "media/explode.wav", false);
 	newRocket->AttachTo(terrain);
 
-	//if (world->GetWeapon() == wRocket)
-	//{
-	//	return;
-	//}
+	if (world->GetWeapon() == wRocket)
+	{
+		return;
+	}
 
-	//while (! newRocket->Exploded())
-	//{
-	//	CNode * pNode = CNode::header;
-	//	while (pNode != NULL)
-	//	{
-	//		CObject * obj = (CObject*)pNode;
-	//		if ((CObject*)newRocket != obj && ((newRocket->position - obj->position).Length() <= (newRocket->size + obj->size)) )
-	//		{
-	//			newRocket->OnCollision(obj);
-	//			obj->OnCollision(newRocket);
-	//		}
-	//		pNode = pNode->next;
-	//	}
-	//	newRocket->OnAnimate(0.025f);
-	//}
+	while (! newRocket->Exploded())
+	{
+		CNode * pNode = CNode::header;
+		while (pNode != NULL)
+		{
+			CObject * obj = (CObject*)pNode;
+			if ((CObject*)newRocket != obj && ((newRocket->position - obj->position).Length() <= (newRocket->size + obj->size)) )
+			{
+				newRocket->OnCollision(obj);
+				obj->OnCollision(newRocket);
+			}
+			pNode = pNode->next;
+		}
+		newRocket->OnAnimate(0.025f);
+	}
 }

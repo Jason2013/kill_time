@@ -87,7 +87,6 @@ public:
 
 	void FireWeapon();
 	void SetAudioSystem(CAudioSystem *aSys) { audioSys = aSys; }
-	BOOL CalcVisibility(CCamera * camera){visible = FALSE;return visible;}
 };
 
 #endif

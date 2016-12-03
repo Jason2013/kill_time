@@ -1,4 +1,4 @@
-//#include "stdafx.h"
+#include "stdafx.h"
 #include "vtrace.h"
 
 #ifdef _DEBUG

@@ -98,7 +98,7 @@ set_target_properties(${PROJ_NAME} PROPERTIES
 cotire(${PROJ_NAME})
 
 add_custom_command(
-    TARGET ${PROJ_NAME} POST_BUILD
+   TARGET ${PROJ_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/media" "${CMAKE_BINARY_DIR}/media"
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/models" "${CMAKE_BINARY_DIR}/models"
 )

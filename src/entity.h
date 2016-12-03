@@ -26,8 +26,6 @@
 #include "audiosystem.h"
 #include "terrain.h"
 
-//extern int g_nVisibleOfEnemies;
-
 class CEntity : public CObject// CMD2Model
 {
 public:
@@ -60,9 +58,6 @@ public:
 
 	void LoadAudio(CAudioSystem *audioSystem, char *filename, bool is3DSound);
 	void SetAudioSystem(CAudioSystem *asys) { audioSys = asys; }
-
-	virtual BOOL CalcVisibility(CCamera * camera);//{visible = TRUE;return visible;}
-	virtual int  CalcDistanceSqr(CCamera * camera);//{return 0;}
 };
 
 #endif

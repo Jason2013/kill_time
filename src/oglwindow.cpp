@@ -12,16 +12,13 @@
 
 */
 
-//#include "stdafx.h"
+#include "stdafx.h"
 
 #include "oglwindow.h"
 
 bool bLMB = false;		// left mouse button
 bool bRMB = false;		// right mouse button
 LPARAM Drag;			// mouse drag
-
-//const GLfloat g_fFovY = 54.0f;
-GLfloat g_fAspect;
 
 // SetupPixelFormat()
 // desc: setup the pixel format for OpenGL
@@ -44,7 +41,7 @@ void COGLWindow::SetupPixelFormat()
 		0,							// no accumulation buffer
 		0, 0, 0, 0,					// accum bits (ignored)
 		16,							// depth buffer
-		0,							// no stencil buffer
+		16,							// no stencil buffer
 		0,							// no auxiliary buffers
 		PFD_MAIN_PLANE,				// main layer
 		0,							// reserved
@@ -201,9 +198,7 @@ void COGLWindow::Size()
 			-0.50f * height / aspect * nearClip,
 			 0.50f * height / aspect * nearClip, nearClip, farClip);
 		*/
-		//g_fFovY = 54.0;
-		g_fAspect = (GLfloat)width/(GLfloat)height;
-		gluPerspective(54.0, g_fAspect, 0.1f, /*200*/2000.0f);
+		gluPerspective(54.0f, (float)width/(float)height, 0.1f, /*200*/2000.0f);
 
 		OnSize();
 

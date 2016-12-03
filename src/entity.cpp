@@ -1,8 +1,6 @@
-//#include "stdafx.h"
+#include "stdafx.h"
 
 #include "entity.h"
-
-//int g_nVisibleOfEnemies;
 
 CEntity::CEntity(CMD2Model * pmd2)
 {
@@ -50,21 +48,17 @@ void CEntity::OnAnimate(float deltaTime)
 
 void CEntity::OnDraw(CCamera *camera)
 {
-	//if (! visible)
-	//{
-	//	return;
-	//}
-
-	glPushMatrix();
-
 	glTranslatef(position.x, position.y, position.z);
 	glRotatef(-direction, 0.0, 1.0, 0.0);
 	glRotatef(90.0f, -1.0f, 0.0f, 0.0f);
 	glScalef(0.25, 0.25, 0.25);
+		
+	pModel->AnimateModel(stateStart, stateEnd, deltaT*animSpeed, currentFrame, nextFrame, interpol);
+	if (stateStart == 178)
+	{
+		VTRACE("(%u), stateStart=%d, stateEnd=%d, deltaT*animSpeed=%f, currentFrame=%d, nextFrame=%d, interpol=%f\n", this, stateStart, stateEnd, deltaT*animSpeed, currentFrame, nextFrame, interpol);
 
-	pModel->AnimateModel(stateStart, stateEnd, deltaT*animSpeed, currentFrame, nextFrame, interpol);//, visible);
-
-	glPopMatrix();
+	}
 }
 
 void CEntity::LoadAudio(CAudioSystem *audioSystem, char *filename, bool is3DSound)
@@ -82,44 +76,4 @@ void CEntity::LoadAudio(CAudioSystem *audioSystem, char *filename, bool is3DSoun
 		delete [] entitySound;
 		entitySound = NULL;
 	}
-}
-
-BOOL CEntity::CalcVisibility(CCamera * camera)
-{
-	int v = camera->VisibleOfSphere(position, size);
-	if (v<0)
-	{
-		visible = FALSE;
-		return visible;
-	}
-
-	CVector newpos(position);
-	newpos.y += size;
-	BOOL vd = camera->terrain->DirectView(camera->position, newpos);
-	if (!vd)
-	{
-		visible = FALSE;
-		return visible;
-	}
-
-	visible = TRUE;
-	return visible;
-}
-int  CEntity::CalcDistanceSqr(CCamera * camera)
-{
-	int x1,y1,z1,x2,y2,z2,x3,y3,z3;
-
-	x1 = (int)camera->position.x;
-	y1 = (int)camera->position.y;
-	z1 = (int)camera->position.z;
-
-	x2 = (int)position.x;
-	y2 = (int)position.y;
-	z2 = (int)position.z;
-
-	x3=(x2-x1);
-	y3=(y2-y1);
-	z3=(z2-z1);
-
-	return x3*x3+y3*y3+z3*z3;
 }

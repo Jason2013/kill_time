@@ -42,12 +42,12 @@ public:
 	float distanceTravel;	// distance rocket has travelled
 	CVector forward;		// forward vector of rocket (for pitch/dir)
 	bool isExplosion;
-	//Weapon m_wType;
+	Weapon m_wType;
 
 	CTexture *explosionTex;
 	CExplosion *explosion;
 
-	CRocket(CMD2Model * pmd2);//, Weapon type = wRocket);
+	CRocket(CMD2Model * pmd2, Weapon type = wRocket);
 	~CRocket();
 
 	void Load();

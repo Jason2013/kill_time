@@ -6,7 +6,7 @@
 
  Written for OpenGL Game Programming
 *****************************************************************************/
-//#include "stdafx.h"
+#include "stdafx.h"
 
 #include "Particles.h"
 

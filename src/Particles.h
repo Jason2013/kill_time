@@ -50,7 +50,7 @@ public:
 
   // abstract functions
   virtual void  Update(float elapsedTime)     = 0;
-  virtual void  Render(){}//                      = 0;
+  virtual void  Render()                      = 0;
 
   virtual int   Emit(int numParticles);
 

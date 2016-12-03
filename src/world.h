@@ -119,10 +119,10 @@ public:
 	int GetSods() { return numSods; }
 	CMD2Model * GetMd2Model(Model m) { return m_models[m];}
 
-	//void SwitchWeapon();
-	//Weapon GetWeapon() {return (Weapon)m_weapon;}
+	void SwitchWeapon();
+	Weapon GetWeapon() {return (Weapon)m_weapon;}
 
-	//void DrawTelescope();
+	void DrawTelescope();
 };
 
 
