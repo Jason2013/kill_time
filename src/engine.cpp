@@ -1,7 +1,7 @@
 #define WIN32_LEAN_AND_MEAN
 #define WIN32_EXTRA_LEAN
 
-//#include "stdafx.h"
+#include "stdafx.h"
 #include "vtrace.h"
 #include <stdlib.h>
 
@@ -9,9 +9,6 @@
 #include "HiResTimer.h"
 #include "camera.h"
 #include "world.h"
-
-
-//extern int g_nVisibleOfEnemies;
 
 void CEngine::CheckInput(float deltaTime)
 {
@@ -66,24 +63,23 @@ void CEngine::CheckInput(float deltaTime)
 			buttonDelta = 0.5f; // ÖØÖÃÑÓÊ±Îª0.5Ãë
 		}
 	}
-	//if (inputSystem->KeyPressing(DIK_F1))
-	//	OnKeyPressing(DIK_F1);
-	//if (inputSystem->KeyPressing(DIK_F2))
-	//	OnKeyPressing(DIK_F2);
-	//{
-	//	static s_lastState = false;
-	//	bool state = inputSystem->ButtonDown(1);
-	//	if (state && (!s_lastState))
-	//	{
-	//		OnMouseDownR(0, 0);
-	//	}
-	//	s_lastState = state;
-	//}
+	if (inputSystem->KeyPressing(DIK_F1))
+		OnKeyPressing(DIK_F1);
+	if (inputSystem->KeyPressing(DIK_F2))
+		OnKeyPressing(DIK_F2);
+	{
+		static int s_lastState = false;
+		bool state = inputSystem->ButtonDown(1);
+		if (state && (!s_lastState))
+		{
+			OnMouseDownR(0, 0);
+		}
+		s_lastState = state;
+	}
 }
 
 void CEngine::GameCycle(float deltaTime)
 {
-	//g_nVisibleOfEnemies=0;
 	CCamera *camera = OnGetCamera();	// get the camera
 	CWorld *world = OnGetWorld();		// get the world
 
@@ -122,8 +118,7 @@ LRESULT CEngine::EnterMessageLoop()
 	
 	OnGetWorld()->SetTimer(timer);
 
-    SetWindowText(hWnd, "Kill Time"); // É±Â¾Ê±¿Ì
-
+    SetWindowText(hWnd, "É±Â¾Ê±¿Ì");
 	while (true)
 	{
 		GameCycle(timer->GetElapsedSeconds());

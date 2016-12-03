@@ -101,6 +101,4 @@ public:
 	static bool RegisterWindow(HINSTANCE hInst);
 };
 
-extern GLfloat g_fAspect;
-
 #endif

@@ -29,10 +29,10 @@ private:
 	int enemiesLeft;
 
 	CFont *font;
-	//CFont *crosshair;
+	CFont *crosshair;
 	CFont *endText;
 
-	//HFONT m_font1, m_font2, m_font3, m_font4;
+	HFONT m_font1, m_font2, m_font3, m_font4;
 
 	GLboolean m_showHelp;
 	CWorld * world;
@@ -41,8 +41,8 @@ public:
 	CGUI();
 	~CGUI();
 
-	//enum Align {Left, Center, Right};
-	//enum TextType {type1, type2, type3, type4};
+	enum Align {Left, Center, Right};
+	enum TextType {type1, type2, type3, type4};
 
 	void SetCurrentTime(float timeLeft);
 	void SetEnemiesLeft(int eLeft);
@@ -54,10 +54,10 @@ public:
 	void DrawWinner();
 	void DrawLoser();
 
-	//void ShowText(int x, int y, LPCTSTR lpszText, Align align, TextType type);
-	//void ShowHelp(GLint width, GLint height,GLboolean show);
-	//void SwitchShowHelp();
-	//void ShowState(GLint width, GLint height);
+	void ShowText(int x, int y, LPCTSTR lpszText, Align align, TextType type);
+	void ShowHelp(GLint width, GLint height,GLboolean show);
+	void SwitchShowHelp();
+	void ShowState(GLint width, GLint height);
 
 	static inline void EnterOrtho(GLint * width = NULL, GLint * height = NULL);
 	static inline void LeaveOrtho();

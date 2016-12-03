@@ -6,14 +6,14 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 // Include Files
-//#include "stdafx.h"
+#include "stdafx.h"
 
 #include <windows.h>                // Win32 Framework (No MFC)
 #include <gl\gl.h>                  // OpenGL
 #include <gl\glu.h>                 // GLU Library
 #include <stdio.h>                  // Standard IO (sprintf)
-//#include "wglext.h"    // WGL Extension Header
-//#include "glext.h"	    // OpenGL Extension Header
+#include "wglext.h"    // WGL Extension Header
+#include "glext.h"	    // OpenGL Extension Header
 #include "gltools.h"   // GLTools library
 #include "resource.h"               // Dialog resources
 
@@ -31,6 +31,13 @@ BOOL APIENTRY StartupDlgProc (HWND hDlg, UINT message,
 							  UINT wParam, LONG lParam);
 
 BOOL ShowStartupOptions(void);          // Initial startup dialog
+
+///////////////////////////////////////////////////////////////////////////////
+// Extension function pointers
+PFNWGLGETPIXELFORMATATTRIBIVARBPROC wglGetPixelFormatAttribivARB = NULL;
+PFNGLWINDOWPOS2IPROC glWindowPos2i = NULL;
+PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT = NULL;
+
 
 /////////////////////////////////////////////////////////////////////////////
 // Dialog procedure for the startup dialog

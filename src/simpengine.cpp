@@ -1,7 +1,7 @@
 #define WIN32_LEAN_AND_MEAN
 #define WIN32_EXTRA_LEAN
 
-//#include "stdafx.h"
+#include "stdafx.h"
 
 #include "simpengine.h"
 
@@ -21,19 +21,17 @@ void CSimpEngine::OnPrepare()
 {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_SMOOTH);
-	//glClearStencil(0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);// | GL_STENCIL_BUFFER_BIT);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	glClearStencil(0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-	//GLdouble fovy;
+	GLdouble fovy;
 
-	//fovy = gameWorld->camera->UsingTelescope() ? 5.4 : 54.0;
+	fovy = gameWorld->camera->UsingTelescope() ? 5.4 : 54.0;
 
-	//glMatrixMode(GL_PROJECTION);
-	//glLoadIdentity();
-	//gluPerspective(g_fFovY, (float)width/(float)height, 0.1, 2000.0);
-	//glMatrixMode(GL_MODELVIEW);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(fovy, (float)width/(float)height, 0.1, 2000.0);
+	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
 	return;
@@ -49,35 +47,35 @@ void CSimpEngine::OnMouseDownL(float x, float y)
 
 void CSimpEngine::OnMouseDownR(float x, float y) 
 {
-	//if (!gameWorld->IsGameDone())
-	//{
-	//	if (gameWorld->camera->UsingTelescope())
-	//	{
-	//		gameWorld->camera->SetTelescope(false);
-	//	}
-	//	else
-	//	{
-	//		gameWorld->camera->SetTelescope(true);
-	//	}
-	//}
+	if (!gameWorld->IsGameDone())
+	{
+		if (gameWorld->camera->UsingTelescope())
+		{
+			gameWorld->camera->SetTelescope(false);
+		}
+		else
+		{
+			gameWorld->camera->SetTelescope(true);
+		}
+	}
 }
 
 void CSimpEngine::OnKeyPressing(int nVirtKey)
 {
-	//if (! gameWorld->IsGameDone())
-	//{
-	//	switch(nVirtKey)
-	//	{
-	//	case DIK_F1:
-	//		gameWorld->gui->SwitchShowHelp();
-	//		break;
-	//	case DIK_F2:
-	//		gameWorld->SwitchWeapon();
-	//		break;
-	//	default:
-	//		break;
-	//	}
-	//}
+	if (! gameWorld->IsGameDone())
+	{
+		switch(nVirtKey)
+		{
+		case DIK_F1:
+			gameWorld->gui->SwitchShowHelp();
+			break;
+		case DIK_F2:
+			gameWorld->SwitchWeapon();
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 void CSimpEngine::OnKeyDown(int nVirtKey)
@@ -136,19 +134,19 @@ void CSimpEngine::OnMouseMove(int deltaX, int deltaY)
 {
 	if (!gameWorld->IsGameDone())
 	{
-		//if (gameCamera->UsingTelescope())
-		//{
-		//	//
-		//	gameCamera->yaw += (float)deltaX*mouseSensitivity/100.0f;
-		//	gameCamera->pitch -= (float)deltaY*mouseSensitivity/100.0f;
-		//}
-		//else
-		//{
+		if (gameCamera->UsingTelescope())
+		{
+			//
+			gameCamera->yaw += (float)deltaX*mouseSensitivity/100.0f;
+			gameCamera->pitch -= (float)deltaY*mouseSensitivity/100.0f;
+		}
+		else
+		{
 
 
 			gameCamera->yaw += deltaX*mouseSensitivity/10.0f;
 			gameCamera->pitch -= deltaY*mouseSensitivity/10.0f;
-		//}
+		}
 	}
 }
 

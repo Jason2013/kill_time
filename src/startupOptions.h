@@ -10,6 +10,9 @@
 #include <gl\gl.h>                  // OpenGL
 #include <gl\glu.h>                 // GLU Library
 #include <stdio.h>                  // Standard IO (sprintf)
+#include "wglext.h"    // WGL Extension Header
+#include "glext.h"	    // OpenGL Extension Header
+#include "gltools.h"   // GLTools library
 #include "resource.h"               // Dialog resources
 
 
@@ -38,5 +41,10 @@ BOOL APIENTRY StartupDlgProc (HWND hDlg, UINT message,
 
 BOOL ShowStartupOptions(void);          // Initial startup dialog
 
+///////////////////////////////////////////////////////////////////////////////
+// Extension function pointers
+extern PFNWGLGETPIXELFORMATATTRIBIVARBPROC wglGetPixelFormatAttribivARB;
+extern PFNGLWINDOWPOS2IPROC glWindowPos2i;
+extern PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT;
 
 

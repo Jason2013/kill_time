@@ -1,28 +1,28 @@
-//#include "stdafx.h"
+#include "stdafx.h"
 
 #include "terrain.h"
 
-//CTerrain::CTerrain()
-//{
-//	width = 256;
-//	scanDepth = 80.0;
-//	terrainMul = 50.0;
-//	textureMul = 0.25;
-//	heightMul = 175.0;
-//	fogColor[0] = 0.75f;
-//	fogColor[1] = 0.9f;
-//	fogColor[2] = 1.0f;
-//	fogColor[3] = 1.0f;
-//
-//	// CObject attributes
-//	position = CVector(0,0,0);
-//	velocity = CVector(0,0,0);
-//	acceleration = CVector(0,0,0);
-//	size = sqrt(width*terrainMul*width*terrainMul + width*terrainMul*width*terrainMul);
-//
-//	BuildTerrain(width, 0.5f);
-//}
-//
+CTerrain::CTerrain()
+{
+	width = 256;
+	scanDepth = 80.0;
+	terrainMul = 50.0;
+	textureMul = 0.25;
+	heightMul = 175.0;
+	fogColor[0] = 0.75f;
+	fogColor[1] = 0.9f;
+	fogColor[2] = 1.0f;
+	fogColor[3] = 1.0f;
+
+	// CObject attributes
+	position = CVector(0,0,0);
+	velocity = CVector(0,0,0);
+	acceleration = CVector(0,0,0);
+	size = sqrt(width*terrainMul*width*terrainMul + width*terrainMul*width*terrainMul);
+
+	BuildTerrain(width, 0.5f);
+}
+
 CTerrain::CTerrain(int w, float rFactor)
 {
 	width = w;
@@ -50,20 +50,9 @@ void CTerrain::BuildTerrain(int w, float rFactor)
 {
 	width = w;
 	heightMap = new float[width*width];
-
-	vertices = new CVector[width*width];
-	vertVisible = new BOOL[width*width];
-	vertTexCoord = new VertTex[width*width];
-	
-
-	//trisCG = new CVector[(width-1)*(width-1)*2];
-	trisVisible = new BOOL[(width-1)*(width-1)*2];
-	trisIndex = new TriIndex[(width-1)*(width-1)*2];
-	trisDrawIndex = new int[(width-1)*(width-1)*2*3]; // num triangle * 3
-	//trisBufferF = new float[(width-1)*(width-1)*2];
-	
 	memset(heightMap, 0, sizeof(float)*width*width);
-
+	VTRACE("%i=%f\n", 100, heightMap[100]);
+	VTRACE("%i=%f\n", 200, heightMap[200]);
 	MakeTerrainPlasma(heightMap, width, rFactor);
 	
 	// load texture
@@ -100,33 +89,56 @@ void CTerrain::OnCollision(CObject *collisionObject)
 
 void CTerrain::OnDraw(CCamera *camera)
 {
+	int z, x;
+
 	glEnable(GL_DEPTH_TEST);
 
-	//glFogi(GL_FOG_MODE, GL_LINEAR);
-	//glFogfv(GL_FOG_COLOR, fogColor);
-	//glFogf(GL_FOG_START, scanDepth * 0.2f);
-	//glFogf(GL_FOG_END, scanDepth * 2.5f);
-	//glHint(GL_FOG_HINT, GL_FASTEST);
-	//glEnable(GL_FOG);
+	glFogi(GL_FOG_MODE, GL_LINEAR);
+	glFogfv(GL_FOG_COLOR, fogColor);
+	glFogf(GL_FOG_START, scanDepth * 0.2f);
+	glFogf(GL_FOG_END, scanDepth * 2.5f);
+	glHint(GL_FOG_HINT, GL_FASTEST);
+	glEnable(GL_FOG);
 
-	//glDisable(GL_FOG);
+	glDisable(GL_FOG);
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
+	//glEnable(GL_ALPHA_TEST);
+	//glAlphaFunc(GL_GREATER,0.0);
+	//glDisable(GL_ALPHA_TEST);
+	// push/pop objects that move with the camera (e.g. a sun, the sky)
+	//glTranslatef(camera->x, camera->y, camera->z);
 
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, terrainTex[0].texID);
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	CalcVertexVisibility(camera);
-	CalcTriangleVisibility(camera);
-	CalcTriangleDrawIndex();
-
 	glColor3f(1.0, 1.0, 1.0);
+	for (z = (int)(camera->position.z / terrainMul - scanDepth), z=z<0?0:z; (z < camera->position.z / terrainMul + scanDepth) && z < width-1; z++)
+	{
+		glBegin(GL_TRIANGLE_STRIP);
+		for (x = (int)(camera->position.x / terrainMul - scanDepth), x=x<0?0:x; (x < camera->position.x / terrainMul + scanDepth) && x < width-1; x++)
+		{
+		//	glColor3f(heightMap[x+z*width], heightMap[x+z*width], heightMap[x+z*width]);
+			glTexCoord2f(textureMul * x, textureMul * z);
+			glVertex3f((float)x*terrainMul, (float)heightMap[x + z*width]*heightMul, (float)z*terrainMul);
 
-	glDrawElements(GL_TRIANGLES, trisDrawNum, GL_UNSIGNED_INT, trisDrawIndex);
-	return;
+		//	glColor3f(heightMap[x+1+z*width], heightMap[x+1+z*width], heightMap[x+1+z*width]);
+			glTexCoord2f(textureMul * (x+1), textureMul * z);
+			glVertex3f((float)(x+1)*terrainMul, (float)heightMap[x+1 + z*width]*heightMul, (float)z*terrainMul);
+
+		//	glColor3f(heightMap[x+(z+1)*width], heightMap[x+(z+1)*width], heightMap[x+(z+1)*width]);
+			glTexCoord2f(textureMul * x, textureMul * (z+1));
+			glVertex3f((float)x*terrainMul, (float)heightMap[x + (z+1)*width]*heightMul, (float)(z+1)*terrainMul);
+
+		//	glColor3f(heightMap[x+1+(z+1)*width], heightMap[x+1+(z+1)*width], heightMap[x+1+(z+1)*width]);
+			glTexCoord2f(textureMul * (x+1), textureMul * (z+1));
+			glVertex3f((float)(x+1)*terrainMul, (float)heightMap[x+1 + (z+1)*width]*heightMul, (float)(z+1)*terrainMul);
+		}
+		glEnd();
+	}
 }
 
 // RangedRandom()
@@ -173,28 +185,8 @@ void CTerrain::NormalizeTerrain(float field[],int size)
 	*/
 	for (i=0;i<size*size;i++)
 	{
-		field[i] = (field[i]-minVal)/dh;//field[i] = 0;
+		field[i] = (field[i]-minVal)/dh;
 	}
-
-	for (int z=0; z<width; z++)
-	{
-		for (int x=0; x<width; x++)
-		{
-			int index = z*width + x;
-			vertices[index].x = terrainMul*x;
-			vertices[index].y = heightMul * field[index];//textureMul*x;
-			vertices[index].z = terrainMul*z;
-		}
-	}
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, vertices);
-
-	CalcVertexTexCoord(); // texture coordinate
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glTexCoordPointer(2, GL_FLOAT, 0, vertTexCoord);
-
-	CalcTriangleIndex(); // triangle indexes
 
 }
 

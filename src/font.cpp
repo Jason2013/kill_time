@@ -1,6 +1,7 @@
 #define WIN32_MEAN_AND_LEAN
 #define WIN32_EXTRA_LEAN
-//#include "stdafx.h"
+
+#include "stdafx.h"
 
 #include "font.h"
 
@@ -70,10 +71,10 @@ void CFont::Print(const char *str, ...)
 		vsprintf(text, str, args);
 	va_end(args);
 
-	//glPushMatrix();
+	glPushMatrix();
 	glColor4f(r, g, b, a);
-	//glLoadIdentity();
-	//glTranslatef(0.0f, 0.0f, -1.0f);	// translate one unit into the screen
+	glLoadIdentity();
+	glTranslatef(0.0f, 0.0f, -1.0f);	// translate one unit into the screen
 	if (xpos == 0.0 && ypos == 0.0 && zpos == 0.0)
 		glRasterPos2i(screenX, screenY);
 	else
@@ -83,7 +84,7 @@ void CFont::Print(const char *str, ...)
 		glListBase(callList - 32);
 		glCallLists(strlen(text), GL_UNSIGNED_BYTE, text);
 	glPopAttrib();
-	//glPopMatrix();
+	glPopMatrix();
 }
 
 void CFont::ClearFont()

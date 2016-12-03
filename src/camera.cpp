@@ -8,14 +8,14 @@ Date: 4/4/2001
 Description:
 
 */
-//#include "stdafx.h"
+#include "stdafx.h"
 
 #include "camera.h"
 #include "object.h"
 
 CCamera::CCamera()
 {
-	position = CVector(32.0 * 50.0 /2.0f, 20.0, 32.0 * 50.0 /2.0f);
+	position = CVector(0.0, 20.0, 0.0);
 	lookAt = CVector(0.0, 0.0, 1.0);
 
 	forward = lookAt;
@@ -28,7 +28,7 @@ CCamera::CCamera()
 	yaw = 0.0;
 	pitch = 0.0;
 
-	//m_telescope = false;
+	m_telescope = false;
 	m_speedScale = 1.0f;
 }
 
@@ -46,7 +46,7 @@ CCamera::CCamera(CVector *look)
 
 	yaw = 0.0;
 	pitch = 0.0;
-	//m_telescope = false;
+	m_telescope = false;
 	m_speedScale = 1.0f;
 
 }
@@ -65,7 +65,7 @@ CCamera::CCamera(CVector *pos, CVector *look)
 
 	yaw = 0.0;
 	pitch = 0.0;
-	//m_telescope = false;
+	m_telescope = false;
 	m_speedScale = 1.0f;
 }
 
@@ -192,15 +192,15 @@ void CCamera::MoveTo(CObject *object)
 	UpdateMoveTo();
 }
 
-//void CCamera::SetTelescope(bool state)
-//{
-//	m_telescope = state;
-//}
+void CCamera::SetTelescope(bool state)
+{
+	m_telescope = state;
+}
 
-//bool CCamera::UsingTelescope()
-//{
-//	return m_telescope;
-//}
+bool CCamera::UsingTelescope()
+{
+	return m_telescope;
+}
 void CCamera::SetRunState(bool state)
 {
 	m_speedScale = state ? 2.0f : 1.0f;
@@ -257,7 +257,4 @@ void CCamera::Animate(scalar_t deltaTime)
 		lookAt.x, lookAt.y, lookAt.z,
 		0.0, 1.0, 0.0);
 
-	CalcClipNormals();
-
 }
-

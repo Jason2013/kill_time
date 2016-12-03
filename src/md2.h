@@ -150,9 +150,7 @@ public:
 
      // render model with interpolation to get animation
      //int AnimateModel(int startFrame, int endFrame, float percent);
-	 int AnimateModel(int startFrame, int endFrame, float percent, int & currentFrame, int & nextFrame, float & interpol);//, BOOL visible);
-	 int DrawModel(/*int startFrame, int endFrame, */float percent, int & currentFrame, int & nextFrame, float & interpol);//, BOOL visible);
-
+	 int AnimateModel(int startFrame, int endFrame, float percent, int & currentFrame, int & nextFrame, float & interpol);
 
      // render a single frame
      int RenderFrame(int keyFrame);

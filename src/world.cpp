@@ -1,4 +1,4 @@
-//#include "stdafx.h"
+#include "stdafx.h"
 
 #include "world.h"
 
@@ -12,7 +12,7 @@ CWorld::CWorld()
 {
 	terrain = new CTerrain(32, 0.5);
 	timer = NULL;
-	//m_weapon = wRocket;
+	m_weapon = wRocket;
 }
 
 CWorld::~CWorld()
@@ -21,7 +21,6 @@ CWorld::~CWorld()
 
 	delete gui;
 	delete terrain;
-	delete player;
 	delete audioSystem;
 	delete worldSound;
 
@@ -35,7 +34,6 @@ CWorld::CWorld(CCamera *c)
 {
 	camera = c;
 	terrain = new CTerrain(32, 1.0f);
-	c->terrain = terrain;
 	player = new CPlayer;
 	audioSystem = new CAudioSystem;
 	gui = new CGUI;
@@ -62,7 +60,7 @@ CWorld::CWorld(CCamera *c)
 	gui->SetEnemiesLeft(numOgros + numSods);
 
 	memset(m_models, 0, sizeof(m_models));
-	//m_weapon = wRocket;
+	m_weapon = wRocket;
 
 	timer = NULL;
 }
@@ -110,7 +108,7 @@ void CWorld::FadeScreen()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDisable(GL_TEXTURE_2D);
-	//glDisable(GL_STENCIL_TEST);
+	glDisable(GL_STENCIL_TEST);
 	glDisable(GL_DEPTH_TEST);
 
 	glColor4f(0.0, 0.0, 0.0, 0.5);
@@ -122,7 +120,7 @@ void CWorld::FadeScreen()
 	glEnd();
 
 	glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_STENCIL_TEST);
+	glEnable(GL_STENCIL_TEST);
 	glEnable(GL_TEXTURE_2D);
 	glDisable(GL_BLEND);
 
@@ -138,10 +136,10 @@ void CWorld::SetScreen(int width, int height)
 void CWorld::Draw(CCamera *camera)
 {
 	terrain->Draw(camera);
-	//if (camera->UsingTelescope())
-	//{
-	//	DrawTelescope();
-	//}
+	if (camera->UsingTelescope())
+	{
+		DrawTelescope();
+	}
 	gui->Draw();
 
 	if (gameDone)
@@ -179,7 +177,7 @@ void CWorld::LoadWorld()
 	rndInt = (rand() % (MAX_ENEMIES-4)) + 4;	// random # from 4 to MAX
 	//rndInt = 20;
 	numOgros = numSods = rndInt;
-	numOgros = numSods = 20; // numOgros =1; numSods =0;// 20;
+	numOgros = numSods = 20;
 
 	// generate ogros
 	for (enemyIdx = 0; enemyIdx < numOgros; enemyIdx++)
@@ -254,60 +252,60 @@ void CWorld::FreeGameResource()
 	}
 }
 
-//void CWorld::SwitchWeapon()
-//{
-//	if (m_weapon < wGun)
-//	{
-//		m_weapon ++;
-//	}
-//	else
-//	{
-//		m_weapon = wRocket;
-//	}
-//}
+void CWorld::SwitchWeapon()
+{
+	if (m_weapon < wGun)
+	{
+		m_weapon ++;
+	}
+	else
+	{
+		m_weapon = wRocket;
+	}
+}
 
-//void CWorld::DrawTelescope()
-//{
-//	GLint width, height;
-//	CGUI::EnterOrtho(&width, &height);
-//
-//	GLfloat r = (width < height) ? (GLfloat)width : (GLfloat)height;
-//	r /= 2.0f;
-//
-//	glClear(GL_STENCIL_BUFFER_BIT);
-//
-//	glEnable(GL_STENCIL_TEST);
-//	glStencilFunc(GL_NEVER, 1, 1);
-//	glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
-//
-//
-//	glBegin(GL_POLYGON);
-//	for (float angle = 0.0f; angle < 3.1415926f * 2; angle += (3.1415926f / 30.0f) )
-//	{
-//		glVertex2f((GLfloat)sin(angle) * r, (GLfloat)cos(angle) * r);
-//	}
-//	glEnd();
-//
-//	glStencilFunc(GL_EQUAL, 0, 1);
-//	glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-//
-//	glDisable(GL_DEPTH_TEST);
-//	glDisable(GL_BLEND);
-//	glDisable(GL_TEXTURE_2D);
-//
-//	glColor3f(0,0,0);
-//	glBegin(GL_QUADS);
-//	glVertex3f((GLfloat)-width/2, (GLfloat)-height/2, -1);
-//	glVertex3f((GLfloat)width/2, (GLfloat)-height/2, -1);
-//	glVertex3f((GLfloat)width/2, (GLfloat)height/2, -1);
-//	glVertex3f((GLfloat)-width/2, (GLfloat)height/2, -1);
-//	glEnd();
-//
-//	glEnable(GL_TEXTURE_2D);
-//	glEnable(GL_BLEND);
-//	glEnable(GL_DEPTH_TEST);
-//
-//	glDisable(GL_STENCIL_TEST);
-//
-//	CGUI::LeaveOrtho();
-//}
+void CWorld::DrawTelescope()
+{
+	GLint width, height;
+	CGUI::EnterOrtho(&width, &height);
+
+	GLfloat r = (width < height) ? (GLfloat)width : (GLfloat)height;
+	r /= 2.0f;
+
+	glClear(GL_STENCIL_BUFFER_BIT);
+
+	glEnable(GL_STENCIL_TEST);
+	glStencilFunc(GL_NEVER, 1, 1);
+	glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
+
+
+	glBegin(GL_POLYGON);
+	for (float angle = 0.0f; angle < 3.1415926f * 2; angle += (3.1415926f / 30.0f) )
+	{
+		glVertex2f((GLfloat)sin(angle) * r, (GLfloat)cos(angle) * r);
+	}
+	glEnd();
+
+	glStencilFunc(GL_EQUAL, 0, 1);
+	glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
+	glDisable(GL_TEXTURE_2D);
+
+	glColor3f(0,0,0);
+	glBegin(GL_QUADS);
+	glVertex3f((GLfloat)-width/2, (GLfloat)-height/2, -1);
+	glVertex3f((GLfloat)width/2, (GLfloat)-height/2, -1);
+	glVertex3f((GLfloat)width/2, (GLfloat)height/2, -1);
+	glVertex3f((GLfloat)-width/2, (GLfloat)height/2, -1);
+	glEnd();
+
+	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
+
+	glDisable(GL_STENCIL_TEST);
+
+	CGUI::LeaveOrtho();
+}
