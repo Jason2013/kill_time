@@ -490,7 +490,7 @@ int CMD2Model::AnimateModel(int startFrame, int endFrame, float percent,
 		vertex[1].point[2] = z1 + interpol * (z2 - z1);
 
 		// calculate the normal of the triangle
-		// 不启用光照，可以关闭法线计算
+        // 涓嶅惎鐢ㄥ厜鐓э紝鍙互鍏抽棴娉曠嚎璁＄畻
 		//CalculateNormal(vertex[0].point, vertex[2].point, vertex[1].point);
 
 		// render properly textured triangle
@@ -620,7 +620,7 @@ int CMD2Model::DrawModel(//int startFrame, int endFrame,
 		vertex[1].point[2] = z1 + interpol * (z2 - z1);
 
 		// calculate the normal of the triangle
-		// 不启用光照，可以关闭法线计算
+        // 涓嶅惎鐢ㄥ厜鐓э紝鍙互鍏抽棴娉曠嚎璁＄畻
 		//CalculateNormal(vertex[0].point, vertex[2].point, vertex[1].point);
 
 		// render properly textured triangle
