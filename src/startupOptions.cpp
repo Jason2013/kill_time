@@ -8,6 +8,8 @@
 // Include Files
 #include "stdafx.h"
 
+#include <set>
+#include <tuple>
 #include <windows.h>                // Win32 Framework (No MFC)
 #include <gl\gl.h>                  // OpenGL
 #include <gl\glu.h>                 // GLU Library
@@ -109,21 +111,33 @@ BOOL APIENTRY StartupDlgProc (HWND hDlg, UINT message, UINT wParam, LONG lParam)
 				nWidth = GetSystemMetrics(SM_CXSCREEN);	// Current settings
 				nHeight = GetSystemMetrics(SM_CYSCREEN);
 				hListBox = GetDlgItem(hDlg, IDC_DISPLAY_COMBO);
+
+                std::set<std::tuple<DWORD, DWORD, DWORD> > items;
 				while(EnumDisplaySettings(NULL, iMode, &devMode))
 				{
 					//if(devMode.dmBitsPerPel == pfd.cColorBits)
-					{
-						int iItem;
-						sprintf(cBuffer,"%d x %d x %dbpp @%dhz", devMode.dmPelsWidth,
-							devMode.dmPelsHeight, devMode.dmBitsPerPel, devMode.dmDisplayFrequency);
+                    {
+                        int iItem;
+                        auto item = std::make_tuple(devMode.dmPelsWidth, devMode.dmPelsHeight, devMode.dmBitsPerPel);
+                        // Only display devMode which DisplayFrequency is greater or equal to 60
+                        if (devMode.dmDisplayFrequency >= 60 && items.find(item) == items.cend())
+                        {
+                            items.insert(item);
 
-						iItem = SendMessage(hListBox, CB_ADDSTRING, 0, (LPARAM)cBuffer);
-						SendMessage(hListBox, CB_SETITEMDATA, iItem, iMode);
+                            sprintf(cBuffer, "%d x %d x %dbpp @%dhz", devMode.dmPelsWidth,
+                                devMode.dmPelsHeight, devMode.dmBitsPerPel, devMode.dmDisplayFrequency);
 
-						if(devMode.dmPelsHeight == nHeight &&
-							devMode.dmPelsWidth == nWidth)
-							SendMessage(hListBox, CB_SETCURSEL, iItem, 0);
-					}
+                            iItem = SendMessage(hListBox, CB_ADDSTRING, 0, (LPARAM)cBuffer);
+                            SendMessage(hListBox, CB_SETITEMDATA, iItem, iMode);
+
+                            if (devMode.dmPelsHeight == nHeight &&
+                                devMode.dmPelsWidth == nWidth)
+                            {
+                                SendMessage(hListBox, CB_SETCURSEL, iItem, 0);
+                            }
+                        }
+
+                    }
 					iMode++;
 				}
 
