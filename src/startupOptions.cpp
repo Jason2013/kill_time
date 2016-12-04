@@ -144,7 +144,7 @@ BOOL APIENTRY StartupDlgProc (HWND hDlg, UINT message, UINT wParam, LONG lParam)
 
 				// Set other defaults /////////////
 				// Windowed or full screen
-				CheckDlgButton(hDlg, IDC_FS_CHECK, BST_CHECKED);	
+				//CheckDlgButton(hDlg, IDC_FS_CHECK, BST_CHECKED);	
 
 				// FSAA, but only if support detected
 				if(startupOptions.nPixelFormatMS != 0)
