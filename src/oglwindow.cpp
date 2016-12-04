@@ -501,11 +501,11 @@ COGLWindow::COGLWindow(const char *szName, bool fscreen, int w, int h, int b)
 						  NULL, NULL, (HINSTANCE)GetModuleHandle(NULL), (void*)this);
 	}
 	else
-	{
-
-		hWnd = CreateWindowEx(dwExStyle, "Engine", szName, dwStyle | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
-						  0, 0, width, height, NULL, NULL, (HINSTANCE)GetModuleHandle(NULL),(void*)this);
-	}
+    {
+        hWnd = CreateWindowEx(dwExStyle, "Engine", szName, dwStyle | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
+            0, 0, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top,
+            NULL, NULL, (HINSTANCE)GetModuleHandle(NULL), (void*)this);
+    }
 
 	if (hWnd == NULL) 
 		throw "ERROR: Creating OpenGL Window!";
