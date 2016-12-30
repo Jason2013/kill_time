@@ -43,7 +43,8 @@ PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT = NULL;
 
 /////////////////////////////////////////////////////////////////////////////
 // Dialog procedure for the startup dialog
-BOOL APIENTRY StartupDlgProc (HWND hDlg, UINT message, UINT wParam, LONG lParam)
+
+INT_PTR APIENTRY StartupDlgProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{

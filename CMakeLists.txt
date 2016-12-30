@@ -12,19 +12,21 @@ set(WIN_SDK_DIR
     "C:/Program Files (x86)/Windows Kits/8.1/Include/shared"
 )
 
+set(DK_ROOT D:/dev/p4/dk/dk/win)
+
 # DirectX 8.1 SDK for VC++
 # http://download.csdn.net/download/mr_luowei2009/4262718
-set(DX8_DIR C:/chenchang/dev/DX8_VcSdk)
+set(DX8_DIR ${DK_ROOT}/dx_sdk/8.1)
 
 include_directories(
     ${WIN_SDK_DIR}
-    ${DX8_DIR}/include
+    ${DX8_DIR}/inc
 )
 
 link_libraries(
     opengl32.lib
     glu32.lib
-    winmm.lib
+    ${DK_ROOT}/ms_sdk/8.1/Lib/winv6.3/um/x86/WinMM.Lib
     ${DX8_DIR}/lib/dxguid.lib
     ${DX8_DIR}/lib/dinput8.lib
 )
