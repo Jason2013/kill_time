@@ -26,7 +26,7 @@ bool CheckRequiredFiles()
 	{
 		if (_access(_files[i], 0) == -1)
 		{
-			sprintf(szBuffer, "Required file \"%s\" is missing!", _files[i]);
+			sprintf_s(szBuffer, sizeof(szBuffer), "Required file \"%s\" is missing!", _files[i]);
 			MessageBox(NULL, szBuffer, "Error", MB_ICONSTOP);
 			return false;
 		}

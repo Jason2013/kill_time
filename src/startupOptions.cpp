@@ -124,7 +124,7 @@ BOOL APIENTRY StartupDlgProc (HWND hDlg, UINT message, UINT wParam, LONG lParam)
                         {
                             items.insert(item);
 
-                            sprintf(cBuffer, "%d x %d x %dbpp @%dhz", devMode.dmPelsWidth,
+                            sprintf_s(cBuffer, sizeof(cBuffer), "%d x %d x %dbpp @%dhz", devMode.dmPelsWidth,
                                 devMode.dmPelsHeight, devMode.dmBitsPerPel, devMode.dmDisplayFrequency);
 
                             iItem = SendMessage(hListBox, CB_ADDSTRING, 0, (LPARAM)cBuffer);
