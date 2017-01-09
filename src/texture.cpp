@@ -15,9 +15,9 @@ unsigned char *CTexture::LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmap
 	unsigned char		tempRGB;				// swap variable
 
 	// open filename in "read binary" mode
-	filePtr = fopen(filename, "rb");
-    assert(filePtr != NULL);
-	if (filePtr == NULL)
+    errno_t err = fopen_s(&filePtr, filename, "rb");
+    assert(!err);
+	if (err)
 		return NULL;
 
 	// read the bitmap file header
@@ -116,10 +116,10 @@ unsigned char *CTexture::LoadPCXFile(char *filename, PCXHEADER *pcxHeader)
      unsigned char *paletteData;   // pcx palette data
 
      // open PCX file
-     filePtr = fopen(filename, "rb");
-     assert(filePtr != NULL);
-     if (filePtr == NULL)
-          return NULL;
+     errno_t err = fopen_s(&filePtr, filename, "rb");
+     assert(!err);
+     if (err)
+         return NULL;
 
      // retrieve first character; should be equal to 10
      c = getc(filePtr);
@@ -338,12 +338,12 @@ void CTexture::LoadTexture(char *filename)
 	extStr++;
 
 	// set the texture type based on extension of filename
-	if ((strcmpi(extStr, "BMP") == 0) || (strcmpi(extStr, "bmp") == 0))
+	if ((_strcmpi(extStr, "BMP") == 0) || (_strcmpi(extStr, "bmp") == 0))
 		LoadBMPTexture(filename);
-	else if ((strcmpi(extStr, "PCX") == 0) || (strcmpi(extStr, "pcx") == 0) )
+	else if ((_strcmpi(extStr, "PCX") == 0) || (_strcmpi(extStr, "pcx") == 0) )
 		LoadPCXTexture(filename);
 	
-	else if ((strcmpi(extStr, "TGA") == 0) || (strcmpi(extStr, "tga") == 0) )
+	else if ((_strcmpi(extStr, "TGA") == 0) || (_strcmpi(extStr, "tga") == 0) )
 		LoadTGATexture(filename);
 }
 
@@ -361,10 +361,11 @@ unsigned char *CTexture::LoadTGAFile(char *filename, TGAHEADER *tgaHeader)
 	unsigned char *imageData;	// the TGA data
 
 	// open the TGA file
-	filePtr = fopen(filename, "rb");
-    assert(filePtr != NULL);
-	if (!filePtr)
-		return NULL;
+    errno_t err = fopen_s(&filePtr, filename, "rb");
+    assert(!err);
+    if (err)
+        return NULL;
+
 	
 	// read first two bytes of garbage
 	fread(&ucharBad, sizeof(unsigned char), 1, filePtr);

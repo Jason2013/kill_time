@@ -157,10 +157,11 @@ int CMD2Model::Load(char *modelFile, char *skinFile)
      int i, j;                               // index variables
      
      // open the model file
-     filePtr = fopen(modelFile, "rb");
-     assert(filePtr != NULL);
-     if (filePtr == NULL)
-          return FALSE;
+     errno_t err = fopen_s(&filePtr, modelFile, "rb");
+     assert(!err);
+     if (err)
+         return NULL;
+
      
      // find length of file
      fseek(filePtr, 0, SEEK_END);
@@ -259,11 +260,11 @@ int CMD2Model::LoadModel(char *modelFile)
      int i, j;                               // index variables
      
      // open the model file
-     filePtr = fopen(modelFile, "rb");
-     assert(filePtr != NULL);
-     if (filePtr == NULL)
-          return FALSE;
-     
+     errno_t err = fopen_s(&filePtr, modelFile, "rb");
+     assert(!err);
+     if (err)
+         return NULL;
+
      // find length of file
      fseek(filePtr, 0, SEEK_END);
      fileLen = ftell(filePtr);

@@ -19,7 +19,7 @@ void CMyTrace:: operator ()(const char *message, ...)
 {
 	va_list arg_ptr;
 	va_start(arg_ptr, message);
-	vsprintf(trace_temp, message, arg_ptr);
+	vsprintf_s(trace_temp, sizeof(trace_temp), message, arg_ptr);
 
 	//strcat(trace_temp, "\n");
 
@@ -39,8 +39,8 @@ FILE * CMyTrace::m_logFile = NULL;
 
 void CMyTrace::LogOn()
 {
-	m_logFile = fopen("log.txt", "a");
-	m_logOn = (bool)(m_logFile != NULL);
+    errno_t err = fopen_s(&m_logFile, "log.txt", "a");
+	m_logOn = (bool)(!err);
 
 	//m_logFile.open("log.txt", std::ios::app);
 	//m_logOn = true;

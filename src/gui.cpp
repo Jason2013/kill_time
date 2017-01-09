@@ -55,10 +55,10 @@ void CGUI::DrawWinner()
 
 	glColor3f(1.0f,0.2f,0.2f);
 
-	sprintf(szBuffer, "你胜利了！");
+	sprintf_s(szBuffer, sizeof(szBuffer), "你胜利了！");
 	ShowText(0, 26, szBuffer, Center, type2);
 
-	sprintf(szBuffer, "按ESC键退出");
+	sprintf_s(szBuffer, sizeof(szBuffer), "按ESC键退出");
 	ShowText(0, 0, szBuffer, Center, type2);
 
 	glEnable(GL_STENCIL_TEST);
@@ -79,10 +79,10 @@ void CGUI::DrawLoser()
 
 	glColor3f(0.2f,1.0f,0.2f);
 
-	sprintf(szBuffer, "你失败了！");
+	sprintf_s(szBuffer, sizeof(szBuffer), "你失败了！");
 	ShowText(0, 26, szBuffer, Center, type2);
 
-	sprintf(szBuffer, "按ESC键退出");
+	sprintf_s(szBuffer, sizeof(szBuffer), "按ESC键退出");
 	ShowText(0, 0, szBuffer, Center, type2);
 
 	glEnable(GL_STENCIL_TEST);
@@ -120,16 +120,16 @@ void CGUI::Draw()
 
 		int y = height /2 - 16;
 
-		sprintf(szBuffer, "每秒帧数:%03.2f", m_fps);
+		sprintf_s(szBuffer, sizeof(szBuffer), "每秒帧数:%03.2f", m_fps);
 		ShowText(width / 2 - 10, y, szBuffer, Right, type1);
 
 		y -= 16;
 
-		sprintf(szBuffer, "剩余时间:%02d:%02d:%02d",minutesLeft, secondsLeft, millisecondsLeft);
+		sprintf_s(szBuffer, sizeof(szBuffer), "剩余时间:%02d:%02d:%02d",minutesLeft, secondsLeft, millisecondsLeft);
 		ShowText(width / 2 - 10, y, szBuffer, Right, type1);
 
 		y -= 16;
-		sprintf(szBuffer, "剩余敌人:%02d",enemiesLeft);
+		sprintf_s(szBuffer, sizeof(szBuffer), "剩余敌人:%02d",enemiesLeft);
 		ShowText(width / 2 - 10, y, szBuffer, Right, type1);
 		
 		glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
@@ -191,11 +191,11 @@ void CGUI::ShowState(GLint width, GLint height)
 	int x = width/2 - 10;
 	int y = -height/2 + 16;
 
-	sprintf(buffer, info[0], (world->camera->UsingTelescope() ? info[2] : info[3] ));
+	sprintf_s(buffer, sizeof(buffer), info[0], (world->camera->UsingTelescope() ? info[2] : info[3] ));
 	ShowText(x, y, buffer, Right, type1);
 	y += 16;
 
-	sprintf(buffer, info[1], (world->GetWeapon() == wRocket ? info[4] : info[5] ));
+	sprintf_s(buffer, sizeof(buffer), info[1], (world->GetWeapon() == wRocket ? info[4] : info[5] ));
 	ShowText(x, y, buffer, Right, type1);
 
 	return;

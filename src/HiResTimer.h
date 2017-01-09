@@ -74,7 +74,7 @@ float GetFPS(unsigned long elapsedFrames = 1)
 
   QueryPerformanceCounter(&currentTime);
 
-  float fps = (float)elapsedFrames * (float)m_ticksPerSecond.QuadPart / ((float)currentTime.QuadPart - (float)s_lastTime.QuadPart);
+  float fps = (float)elapsedFrames * m_ticksPerSecond.QuadPart / (currentTime.QuadPart - s_lastTime.QuadPart);
 
   // reset the timer
   s_lastTime = currentTime;
