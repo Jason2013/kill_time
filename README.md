@@ -13,9 +13,9 @@
 
 **Language/Tools:** C/C++, OpenGL(Graphics), DirectX(Sound, Input), MS Visual C++ 2015, cmake, git
 
-**Download url:** https://github.com/Jason2013/killtime-opt/raw/master/killtime.zip
+**Download url:** https://github.com/Jason2013/kill_time-release/blob/master/kill_time.zip
 
-**Source Code:** https://github.com/Jason2013/killtime-opt
+**Source Code:** https://github.com/Jason2013/kill_time
 
 **Features:**
 +	3D model loading and rendering
