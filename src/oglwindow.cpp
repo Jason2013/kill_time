@@ -128,7 +128,7 @@ void COGLWindow::Destroy()
 		DeleteObject(hPalette);
 	}
 
-	SetWindowLong(hWnd, GWL_USERDATA, (LONG)NULL);
+	SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG)NULL);
 
 	DestroyWindow(hWnd);
 
@@ -239,7 +239,7 @@ int COGLWindow::GetMouseY(LPARAM lParam)
 // desc: the WndProc for the OpenGL window
 LRESULT APIENTRY WndProcOGL(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	COGLWindow *glWindow = (COGLWindow*)GetWindowLong(hWnd, GWL_USERDATA);
+	COGLWindow *glWindow = (COGLWindow*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
 	// make sure window has been created
 	if ((glWindow == NULL) && (uMsg != WM_CREATE))
@@ -252,10 +252,10 @@ LRESULT APIENTRY WndProcOGL(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{	
 		case WM_CREATE:			// window creation
 		{
-			HINSTANCE hInst = (HINSTANCE)GetWindowLong(hWnd, GWL_HINSTANCE);
+			HINSTANCE hInst = (HINSTANCE)GetWindowLongPtr(hWnd, GWLP_HINSTANCE);
 			glWindow = (COGLWindow*)(((LPCREATESTRUCT)lParam)->lpCreateParams);
 
-			SetWindowLong(hWnd, GWL_USERDATA, (LONG)glWindow);
+			SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG)glWindow);
 			glWindow->hWnd = hWnd;
 
 			return glWindow->Create();
