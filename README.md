@@ -30,3 +30,30 @@
 ![Screen Shot 1](https://github.com/Jason2013/killtime-opt/raw/master/docs/shoot1.jpg)
 
 ![Screen Shot 2](https://github.com/Jason2013/killtime-opt/raw/master/docs/shoot2.jpg)
+
+# Build from source code
+
+1. **Clone the source code from github**:
+
+```
+git clone https://github.com/Jason2013/kill_time.git
+```
+
+2. **Make a directory for build**: 
+
+```
+cd <SRC>
+mkdir build
+```
+
+3. **Generate `Visual Studio 2015` solution and project files by `CMake`**:
+
+```
+cd build
+cmake .. -G"Visual Studio 14 2015"
+```
+
+4. **Open the generated solution file by `Visual Studio 2015` and build**. That's all, enjoy!
+
+
+
