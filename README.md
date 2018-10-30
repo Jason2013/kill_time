@@ -1,5 +1,7 @@
 # Introduction to Kill Time
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/14567ea5c7e44c34a64d2aa3bf6f7611)](https://www.codacy.com/app/Jason2013/kill_time?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Jason2013/kill_time&amp;utm_campaign=Badge_Grade)
+
 **Kill Time** is a small 3D FPS game developed in my spare time.
 
 **Control Keys:**
