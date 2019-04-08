@@ -37,6 +37,10 @@
 
 ![Screen Shot 3](https://github.com/Jason2013/kill_time/blob/master/docs/attack2.png)
 
+**Screencast:**
+
+[Watch on Youtube](https://youtu.be/KJ1-DIhSaL0)
+
 # Build from source code
 
 1. **Clone the source code from github**:
