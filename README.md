@@ -31,9 +31,11 @@
 
 **Screenshots:**
 
-![Screen Shot 1](https://github.com/Jason2013/kill_time/blob/master/docs/shoot1.jpg)
+![Screen Shot 1](https://github.com/Jason2013/kill_time/blob/master/docs/attack0.png)
 
-![Screen Shot 2](https://github.com/Jason2013/kill_time/blob/master/docs/shoot2.jpg)
+![Screen Shot 2](https://github.com/Jason2013/kill_time/blob/master/docs/attack1.png)
+
+![Screen Shot 3](https://github.com/Jason2013/kill_time/blob/master/docs/attack2.png)
 
 # Build from source code
 
