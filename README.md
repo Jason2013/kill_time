@@ -12,7 +12,7 @@
 + Right Key / D: Move right
 + Left Mouse Button: Fire
 + Right Mouse Button: Switch sniperscope
-+ F2 Button: Switch weapon between recket and rifle
++ F2 Key: Switch weapon between rocket and rifle
 + Escape Key: Exit
 
 **Language/Tools:** C/C++, OpenGL(Graphics), DirectX(Sound, Input), MS Visual C++ 2015/2017, cmake, git
