@@ -7,24 +7,18 @@ project(${PROJ_NAME})
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 include(cotire)
 
-# Microsoft Windows SDK (for basetsd.h, in which POINTER_64 is defined)
-set(WIN_SDK_DIR
-    "C:/Program Files (x86)/Windows Kits/8.1/Include/shared"
-)
-
 # DirectX 8.1 SDK for VC++
 # http://download.csdn.net/download/mr_luowei2009/4262718
-set(DX8_DIR C:/chenchang/dev/DX8_VcSdk)
+set(DX8_DIR ${CMAKE_SOURCE_DIR}/external/dxsdk/8.1)
 
 include_directories(
-    ${WIN_SDK_DIR}
-    ${DX8_DIR}/include
+    ${DX8_DIR}/inc
 )
 
 link_libraries(
     opengl32.lib
     glu32.lib
-    winmm.lib
+    WinMM.Lib
     ${DX8_DIR}/lib/dxguid.lib
     ${DX8_DIR}/lib/dinput8.lib
 )
